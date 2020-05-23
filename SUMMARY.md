@@ -1,14 +1,13 @@
-# Summary
+bui#  Summary
+
+* [介绍](README.md)
 
 ## 第一部分 需求分析，业务建模
 
-** [第一章 时间序列数据存储的业务场景](README.md)
-
-*** 1.1 互联网的监控
-
-*** 1.2 IOT设备
-
-*** 1.3 工业设计
+* [第一章 时间序列数据存储的业务场景](docs/index.md)
+  * [1.1 互联网的监控](docs/chapter1/互联网监控.md)
+  * [1.2 IOT 设备](docs/information.md)
+  * [1.3 工业设备](docs/information.md)
 
 ---
 
@@ -16,21 +15,20 @@
 
 ---
 
-* [第一章](README.md)
+
 
 ---
 
 ## 第三部分 模型推演，规范设计
 ---
 
-* [第一章](README.md)
+
 ---
 
 ## 第四部分 代码实现，实践验证
 
 ---
 
-* [第一章](README.md)
 
 ---
 
