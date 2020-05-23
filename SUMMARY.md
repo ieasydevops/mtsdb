@@ -6,13 +6,17 @@ bui#  Summary
 
 * [第一章 时间序列数据存储的业务场景]()
 
-  * [1.1 互联网的监控](docs/chapter1/互联网监控.md)
-  * [1.2 IOT 设备](docs/information.md)
-  * [1.3 工业设备](docs/information.md)
+  * [1.1 数据序列数据的定义](docs/chapter1/时间序列数据的定义.md)
+  * [1.2 互联网的监控](docs/chapter1/互联网监控.md)
+  * [1.3 IOT 设备](docs/information.md)
+  * [1.4 工业设备](docs/information.md)
+  * [1.4 工业设备](docs/information.md)
 
 ---
 
 ## 第二部分 现状分析，技术调研
+
+* [第二章 时序数据库的比较分析]()
 
 ---
 
