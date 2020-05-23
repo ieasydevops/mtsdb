@@ -4,7 +4,8 @@ bui#  Summary
 
 ## 第一部分 需求分析，业务建模
 
-* [第一章 时间序列数据存储的业务场景](docs/index.md)
+* [第一章 时间序列数据存储的业务场景]()
+
   * [1.1 互联网的监控](docs/chapter1/互联网监控.md)
   * [1.2 IOT 设备](docs/information.md)
   * [1.3 工业设备](docs/information.md)
