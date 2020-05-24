@@ -8,9 +8,6 @@ bui#  Summary
 
   * [1.1 数据序列数据的定义](docs/chapter1/时间序列数据的定义.md)
   * [1.2 互联网的监控](docs/chapter1/互联网监控.md)
-  * [1.3 IOT 设备](docs/information.md)
-  * [1.4 工业设备](docs/information.md)
-  * [1.4 工业设备](docs/information.md)
 
 ---
 
