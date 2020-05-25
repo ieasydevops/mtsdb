@@ -1,0 +1,386 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2.1时间序列数据库VictoriaMetrics分析 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第一部分 需求分析，业务建模</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    第一章 时间序列数据存储的业务场景
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../chapter1/时间序列数据的定义.html">
+            
+                <a href="../chapter1/时间序列数据的定义.html">
+            
+                    
+                    1.1 数据序列数据的定义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../chapter1/互联网监控.html">
+            
+                <a href="../chapter1/互联网监控.html">
+            
+                    
+                    1.2 互联网的监控
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第二部分 现状分析，技术调研</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    第二章 时序数据库的比较分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.1.1" data-path="VictoriaMetrics.html">
+            
+                <a href="VictoriaMetrics.html">
+            
+                    
+                    2.1时间序列数据库VictoriaMetrics分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第三部分 模型推演，规范设计</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第四部分 代码实现，实践验证</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第五部分 未来展望</li>
+        
+        
+    
+
+    
+        
+        <li class="header">参考文献</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >2.1时间序列数据库VictoriaMetrics分析</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x6982;&#x8FF0;">&#x6982;&#x8FF0;</h1>
+<ul>
+<li>VictoriaMetrics &#x6570;&#x636E;&#x5E93;&#x7684;&#x5386;&#x53F2;</li>
+<li>VictoriaMetrics &#x529F;&#x80FD;&#x4EAE;&#x70B9;</li>
+<li>VictoriaMetrics &#x7684;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</li>
+<li>VictoriaMetrics &#x6A21;&#x5757;&#x5206;&#x6790;</li>
+<li>VictoriaMetrics &#x96C6;&#x7FA4;&#x6A21;&#x5F0F;</li>
+<li>VictoriaMetrics &#x5B9E;&#x8DF5;&#x65B9;&#x6848;</li>
+<li>VictoriaMetrics &#x6E90;&#x7801;&#x5206;&#x6790;</li>
+</ul>
+<h1 id="&#x5386;&#x53F2;">&#x5386;&#x53F2;</h1>
+<h1 id="&#x67B6;&#x6784;&#x8BBE;&#x8BA1;">&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h1>
+<h1 id="&#x6A21;&#x5757;&#x5206;&#x6790;">&#x6A21;&#x5757;&#x5206;&#x6790;</h1>
+<h2 id="&#x6E90;&#x7801;&#x5206;&#x6790;">&#x6E90;&#x7801;&#x5206;&#x6790;</h2>
+<h2 id="&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;">&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;</h2>
+<p>VM &#x7684;&#x5199;&#x5165;&#x903B;&#x8F91;&#xFF0C;&#x6839;&#x636E;&#x4F20;&#x5165;&#x7684; &#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x7684; &#x6807;&#x7B7E;{&#xFF08;labelName,lableValue&#xFF09;} &#x96C6;&#x5408;&#xFF0C;
+&#x6784;&#x5EFA;&#x5E8F;&#x5217;ID&#xFF0C;&#x7136;&#x540E;&#x6839;&#x636E;&#x5B58;&#x50A8;&#x8282;&#x70B9;&#x4E2A;&#x6570;&#x505A;<a href="&#x4E00;&#x81F4;&#x6027;Hash&#x7B97;&#x6CD5;JCH.md">&#x8DF3;&#x8DC3;&#x4E00;&#x81F4;&#x6027;Hash</a>&#xFF0C;&#x627E;&#x5230;&#x5199;&#x5165;&#x7684;&#x8282;&#x70B9;&#x3002;</p>
+<pre><code>// GetStorageNodeIdx returns storage node index for the given at and labels.
+//
+// The returned index must be passed to WriteDataPoint.
+func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) int {
+    if len(storageNodes) == 1 {
+        // Fast path - only a single storage node.
+        return 0
+    }
+
+    buf := ctx.labelsBuf[:0]
+    buf = encoding.MarshalUint32(buf, at.AccountID)
+    buf = encoding.MarshalUint32(buf, at.ProjectID)
+    for i := range labels {
+        label := &amp;labels[i]
+        buf = marshalBytesFast(buf, label.Name)
+        buf = marshalBytesFast(buf, label.Value)
+    }
+    h := xxhash.Sum64(buf)
+    ctx.labelsBuf = buf
+    idx := int(jump.Hash(h, int32(len(storageNodes))))
+    return idx
+}
+</code></pre><p><a href="https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/app/vminsert/netstorage/insert_ctx.go#L169" target="_blank">&#x5199;&#x5165;&#x903B;&#x8F91;&#x4EE3;&#x7801;</a></p>
+<h2 id="&#x96C6;&#x7FA4;&#x67E5;&#x8BE2;&#x903B;&#x8F91;">&#x96C6;&#x7FA4;&#x67E5;&#x8BE2;&#x903B;&#x8F91;</h2>
+<p>&#x67E5;&#x8BE2;&#x7684;&#x903B;&#x8F91;&#xFF1A;</p>
+<ol>
+<li>&#x5C06;&#x8F93;&#x5165;&#x7684;&#x67E5;&#x8BE2;&#x5206;&#x89E3;&#x8BED;&#x53E5;&#x5206;&#x89E3;&#x4E3A;&#x9488;&#x5BF9;&#x5B58;&#x50A8;&#x8282;&#x70B9;&#x7684;&#x67E5;&#x8BE2;&#x4EFB;&#x52A1;&#xFF0C;&#x5E76;&#x5C06;&#x8FD9;&#x4E9B;&#x4EFB;&#x52A1;&#x63A8;&#x9001;&#x5230;&#x6240;&#x6709;&#x7684;&#x5B58;&#x50A8;&#x8282;&#x70B9;&#xFF1B;</li>
+<li>&#x67E5;&#x8BE2;&#x8282;&#x70B9;&#x6839;&#x636E;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x505A;&#x805A;&#x5408;</li>
+</ol>
+<pre><code>
+
+</code></pre><h2 id="&#x53C2;&#x8003;&#x6587;&#x732E;">&#x53C2;&#x8003;&#x6587;&#x732E;</h2>
+<p><a href="https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/README.md" target="_blank">VM&#x96C6;&#x7FA4;&#x67B6;&#x6784;&#x6A21;&#x5F0F;</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-25T21:23:27.142Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-25T21:34:54.846Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
