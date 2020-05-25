@@ -3,16 +3,16 @@
 - VictoriaMetrics 数据库的历史
 - VictoriaMetrics 功能亮点
 - VictoriaMetrics 的架构设计
-- VictoriaMetrics 模块分析
 - VictoriaMetrics 集群模式
-- VictoriaMetrics 实践方案
+- VictoriaMetrics 性能分析
 - VictoriaMetrics 源码分析
 
-# 数据库的历史
+# VictoriaMetrics 数据库的历史
 
 
 
-##  功能亮点
+
+##  VictoriaMetrics 功能亮点
 
 - 快
 - 省
@@ -62,7 +62,7 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 ```
 
 
-## 集群模式
+# VictoriaMetrics 集群模式
 
 ### 何时采用集群模式
 
@@ -84,9 +84,19 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 
 
 
-## 源码分析
+# VictoriaMetrics 源码分析
 
-## 集群写入逻辑
+比较关心的两个问题：
+
+1. VM如何实现集群模式？
+
+
+2. VM存储层的索引如何实现？
+
+
+## VM如何实现集群模式？
+
+### 集群写入逻辑
 
 VM 的写入逻辑，根据传入的 时间序列的 标签{（labelName,lableValue）} 集合，
 构建序列ID，然后根据存储节点个数做[跳跃一致性Hash](./一致性Hash算法JCH.md)，找到写入的节点。
@@ -123,9 +133,7 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
 
 
 
-## 集群查询逻辑
-
-查询的逻辑：
+### 集群查逻辑
 
  1. 将输入的查询分解语句分解为针对存储节点的查询任务，并将这些任务推送到所有的存储节点；
  2. 查询节点根据返回的数据做聚合
@@ -133,6 +141,11 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
 ```
 
 ```
+
+
+## VM存储层的索引如何实现
+
+
 
 
 
