@@ -272,9 +272,54 @@
 <li>VictoriaMetrics &#x5B9E;&#x8DF5;&#x65B9;&#x6848;</li>
 <li>VictoriaMetrics &#x6E90;&#x7801;&#x5206;&#x6790;</li>
 </ul>
-<h1 id="&#x5386;&#x53F2;">&#x5386;&#x53F2;</h1>
-<h1 id="&#x67B6;&#x6784;&#x8BBE;&#x8BA1;">&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h1>
-<h1 id="&#x6A21;&#x5757;&#x5206;&#x6790;">&#x6A21;&#x5757;&#x5206;&#x6790;</h1>
+<h1 id="&#x6570;&#x636E;&#x5E93;&#x7684;&#x5386;&#x53F2;">&#x6570;&#x636E;&#x5E93;&#x7684;&#x5386;&#x53F2;</h1>
+<h2 id="&#x529F;&#x80FD;&#x4EAE;&#x70B9;">&#x529F;&#x80FD;&#x4EAE;&#x70B9;</h2>
+<ul>
+<li>&#x5FEB;</li>
+<li>&#x7701;</li>
+<li>&#x6613;&#x4E8E;&#x6269;&#x5C55;</li>
+</ul>
+<h2 id="&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;">&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;</h2>
+<h3 id="&#x4F55;&#x65F6;&#x91C7;&#x7528;&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;">&#x4F55;&#x65F6;&#x91C7;&#x7528;&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;</h3>
+<p>&#x5355;&#x70B9;&#x6A21;&#x5F0F;&#x66F4;&#x5BB9;&#x6613;&#x914D;&#x7F6E;&#x548C;&#x7EF4;&#x62A4;&#xFF0C;&#x5C11;&#x4E8E;&#x767E;&#x4E07;&#x6570;&#x636E;&#x70B9;/S &#x7684;&#x5199;&#x5165;&#x91CF;&#xFF0C;&#x5EFA;&#x8BAE;&#x7528;&#x5355;&#x70B9;&#x6A21;&#x5F0F;&#x3002;&#xFF08;&#x5BF9;&#x5E94;&#x4E8E;&#x5B9E;&#x8DF5;&#x64CD;&#x4F5C;&#xFF0C;&#x53EF;&#x7406;&#x89E3;&#x4E3A;1&#x4E07;&#x53F0;&#x673A;&#x5668;&#x4EE5;&#x4E0B;&#x7684;&#x673A;&#x5668;&#x7684;&#x6307;&#x6807;
+&#x76D1;&#x63A7;&#xFF0C;&#x53EF;&#x4EE5;&#x91C7;&#x7528;&#x5355;&#x70B9;&#x6A21;&#x5F0F;&#x3002;</p>
+<h3 id="&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;&#x6709;&#x90A3;&#x4E9B;&#x597D;&#x5904;">&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;&#x6709;&#x90A3;&#x4E9B;&#x597D;&#x5904;</h3>
+<ul>
+<li>&#x652F;&#x6301;&#x5355;&#x70B9;&#x6A21;&#x5F0F;&#x7684;&#x6240;&#x6709;&#x529F;&#x80FD;</li>
+<li>&#x6027;&#x80FD;&#x548C;&#x5BB9;&#x91CF;&#x53EF;&#x4EE5;&#x6C34;&#x5E73;&#x6269;&#x5BB9;</li>
+<li>&#x652F;&#x6301;&#x591A;&#x79DF;&#x6237;&#xFF0C;&#xFF08;&#x591A;&#x4E2A;&#x540D;&#x5B57;&#x7A7A;&#x95F4;&#x9694;&#x79BB;&#xFF09;</li>
+</ul>
+<h3 id="&#x67B6;&#x6784;&#x5206;&#x6790;">&#x67B6;&#x6784;&#x5206;&#x6790;</h3>
+<p>VM&#x96C6;&#x7FA4;&#x4E09;&#x4E2A;&#x670D;&#x52A1;&#x7EC4;&#x4EF6;&#x6784;&#x6210;&#xFF0C;&#x5199;&#xFF08;Insert&#xFF09;,&#x67E5;&#xFF08;Select&#xFF09;,&#x5B58;&#x50A8;&#xFF08;Storage&#xFF09;&#x7EC4;&#x6210;&#x3002;</p>
+<ul>
+<li>vmstorage - stores the data</li>
+<li>vminsert - proxies the ingested data to vmstorage shards using consistent hashing</li>
+<li>vmselect - performs incoming queries using the data from vmstorage</li>
+</ul>
+<p>&#x7CFB;&#x7EDF;&#x67B6;&#x6784;&#x5982;&#x56FE;&#xFF1A;</p>
+<p><img src="https://camo.githubusercontent.com/67fb28071f537a8837812e9e8ea9dcf6c649a648/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f652f32504143582d317654766b32726155396b46675a38346f462d4f4b6f6c72477748616550684852735a4563665131495f45433541425f5850577742333932587368785072616d4c4a38453462717074546e466e354c4c2f7075623f773d3131303426683d373436" alt="VMArchitecture"></p>
+<p>&#x5176;&#x4E2D;&#xFF0C;&#x5199;&#x5165;&#xFF0C;&#x67E5;&#x8BE2;&#x65E0;&#x72B6;&#x6001;&#x3002;&#x53EF;&#x4EE5;&#x6A2A;&#x884C;&#x65E0;&#x9650;&#x6269;&#x5BB9;&#x3002;&#x67E5;&#x8BE2;&#x7EC4;&#x4EF6;&#xFF0C;&#x652F;&#x6301;PromL&#x8BED;&#x6CD5;&#xFF0C;&#x65B9;&#x4FBF;&#x548C;Grafana&#x96C6;&#x6210;&#x3002;</p>
+<p>&#x5B58;&#x50A8;&#x7EC4;&#x4EF6;&#xFF0C;&#x91C7;&#x7528; <a href="https://en.wikipedia.org/wiki/Shared-nothing_architecture" target="_blank">shared nothing architecture</a>,&#x589E;&#x52A0;&#x4E86;&#x96C6;&#x7FA4;&#x7684;&#x53EF;&#x7528;&#x6027;&#xFF0C;&#x7B80;&#x5316;&#x96C6;&#x7FA4;&#x7EF4;&#x62A4; &#x548C;&#x96C6;&#x7FA4;&#x6269;&#x5BB9;&#x3002;</p>
+<h3 id="&#x591A;&#x79DF;&#x6237;&#xFF08;multitenacy&#xFF09;">&#x591A;&#x79DF;&#x6237;&#xFF08;Multitenacy&#xFF09;</h3>
+<p>VM &#x901A;&#x8FC7;NS&#xFF0C;&#x5B9E;&#x73B0;&#x591A;&#x4E2A;&#x79DF;&#x6237;&#x7684;&#x9694;&#x79BB;&#x3002;&#x6BCF;&#x4E2A;&#x79DF;&#x6237;&#x901A;&#x8FC7;&#xFF0C;accountID:projectID &#x552F;&#x4E00;&#x6807;&#x8BC6;&#x3002;</p>
+<ul>
+<li><p>&#x6BCF;&#x4E2A;&#x7528;&#x6237;ID &#x548C;&#x9879;&#x76EE;ID&#xFF0C;&#x7531;&#x4E00;&#x4E2A;32&#x4F4D;&#x7684;&#x6574;&#x6570;&#x6807;&#x8BC6;&#xFF0C;&#x5982;&#x4F55;&#x9879;&#x76EE;ID&#x7F3A;&#x5931;&#xFF0C;&#x5219;&#x81EA;&#x52A8;&#x586B;0.&#x5EFA;&#x8BAE;&#x548C;&#x79DF;&#x6237;&#x76F8;&#x5173;&#x7684;&#x5176;&#x5B83;
+  &#x4FE1;&#x606F;&#xFF0C;&#x6BD4;&#x5982; token&#xFF0C;&#x79DF;&#x6237;&#x540D;&#x79F0;&#xFF0C;&#x9650;&#x5236;&#xFF0C;&#x8D26;&#x6237;&#x7B49;&#x5B58;&#x50A8;&#x5728;&#x4E00;&#x4E2A;&#x5355;&#x72EC;&#x7684;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x3002;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x80FD;&#x65B9;&#x4FBF;&#x88AB;&#x4E00;
+  &#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x670D;&#x52A1;&#x7BA1;&#x7406;&#x3002;VM&#x63D0;&#x4F9B;&#x4E86; vmauth &#x6765;&#x505A;&#x6B64;&#x4E8B;&#x3002;</p>
+</li>
+<li><p>&#x5F53;&#x7B2C;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#x5199;&#x5165;&#x65F6;&#xFF0C;&#x79DF;&#x6237;&#x88AB;&#x81EA;&#x52A8;&#x521B;&#x5EFA;</p>
+</li>
+<li><p>VM &#x5F53;&#x4E2A;&#x8BF7;&#x6C42;&#x4E2D;&#xFF0C;&#x4E0D;&#x652F;&#x6301;&#x8DE8;&#x8D8A;&#x79DF;&#x6237;&#x7684;&#x67E5;&#x8BE2;&#x3002;</p>
+</li>
+</ul>
+<pre><code>     * Each accountID and projectID is identified by an arbitrary 32-bit integer in the range [0 .. 2^32). If projectID is missing, then it is automatically assigned to 0. It is expected that other information about tenants such as auth tokens, tenant names, limits, accounting, etc. is stored in a separate relational database. This database must be managed by a separate service sitting in front of VictoriaMetrics cluster such as vmauth. Contact us if you need help with creating such a service.
+
+    * Tenants are automatically created when the first data point is written into the given tenant.
+
+    * Data for all the tenants is evenly spread among available vmstorage nodes. This guarantees even load among vmstorage nodes when different tenants have different amounts of data and different query load.
+
+    * VictoriaMetrics doesn&apos;t support querying multiple tenants in a single request.
+</code></pre><h1 id="&#x6A21;&#x5757;&#x5206;&#x6790;">&#x6A21;&#x5757;&#x5206;&#x6790;</h1>
 <h2 id="&#x6E90;&#x7801;&#x5206;&#x6790;">&#x6E90;&#x7801;&#x5206;&#x6790;</h2>
 <h2 id="&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;">&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;</h2>
 <p>VM &#x7684;&#x5199;&#x5165;&#x903B;&#x8F91;&#xFF0C;&#x6839;&#x636E;&#x4F20;&#x5165;&#x7684; &#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x7684; &#x6807;&#x7B7E;{&#xFF08;labelName,lableValue&#xFF09;} &#x96C6;&#x5408;&#xFF0C;
@@ -347,7 +392,7 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-25T21:23:27.142Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-25T21:34:54.846Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-25T22:14:44.621Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-25T22:16:59.140Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
