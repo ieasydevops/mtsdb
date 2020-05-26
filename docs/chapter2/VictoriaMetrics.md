@@ -128,7 +128,7 @@ CPU核:
 
      一个数据点，大概占用不到1个byte。 因此，10万个数据点美秒的数据点，一个月的插入量，需要
 	 至少256GB的的存储空间。
-	 真实的存储大小严重以来数据的随机性，[更高的随机性，意味着更多的存储空间。](https://medium.com/faun/victoriametrics-achieving-better-compression-for-time-series-data-than-gorilla-317bc1f95932)
+	 真实的存储大小严重以来数据的随机性，更高的随机性，意味着更多的存储空间.
 
 
 网络利用率：
@@ -150,7 +150,7 @@ CPU核:
 
 ## VM如何实现集群模式？
 
-### 集群写入逻辑
+### [集群写入逻辑](https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/app/vminsert/netstorage/insert_ctx.go#L169)
 
 VM 的写入逻辑，根据传入的 时间序列的 标签{（labelName,lableValue）} 集合，
 构建序列ID，然后根据存储节点个数做[跳跃一致性Hash](./一致性Hash算法JCH.md)，找到写入的节点。
@@ -182,8 +182,6 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
 
 ```
 
-[写入逻辑代码](https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/app/vminsert/netstorage/insert_ctx.go#L169)
-
 
 
 ### 集群查逻辑
@@ -191,9 +189,6 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
  1. 将输入的查询分解语句分解为针对存储节点的查询任务，并将这些任务推送到所有的存储节点；
  2. 查询节点根据返回的数据做聚合
 
-```
-
-```
 
 
 ## VM存储层的索引如何实现
