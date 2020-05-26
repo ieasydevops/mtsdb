@@ -136,6 +136,50 @@ CPU核:
 	   出口带宽利用率可以忽略。 入口网络流量，Prometheus remote_API 写入的数据，
 	   大约为 ～100 byte/数据点。真实的入口带宽利用率，取决于 摄入指标的标签个数的均值和每个标签
 	   Value值 大小的均值。 
+
+
+
+
+
+## 实际测试结果
+
+  测试所用的机器：
+
+   3.8TB NVMe drive
+
+   [n2.xlarge.x86](https://www.packet.com/cloud/servers/n2-xlarge/)
+
+  
+
+  测试的时间序列数据样本：
+
+    temperature{sensor_id="12345"} 76.23 123456789
+
+	此时序数据标示：在时间点123456789时， 传感器 12345 的 温度为 华氏 76.23。
+
+  测试代码：
+
+    https://github.com/VictoriaMetrics/billy/blob/master/main.go
+	
+
+   产生温度的脚本：
+   
+    https://github.com/VictoriaMetrics/billy/blob/master/scripts/write_needle.sh .
+
+   测试查询性能：
+
+    https://github.com/VictoriaMetrics/billy/tree/master/queries
+
+  测试结果分析：
+
+    525.6 亿 条记录，写入单个VM节点，耗时2H12M，平均摄入速度为
+	525.6e9/(2*3600+12*60)= 66百万数据点/s;
+	每天写入量可达到
+	66M*3600*24=5.7兆 /天 
+ 
+
+  [各个指标详情](https://medium.com/@valyala/billy-how-victoriametrics-deals-with-more-than-500-billion-rows-e82ff8f725da)
+
 	 
 
 # VictoriaMetrics 源码分析
@@ -143,10 +187,6 @@ CPU核:
 比较关心的两个问题：
 
 1. VM如何实现集群模式？
-
-
-2. VM存储层的索引如何实现？
-
 
 ## VM如何实现集群模式？
 
@@ -189,9 +229,6 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
  1. 将输入的查询分解语句分解为针对存储节点的查询任务，并将这些任务推送到所有的存储节点；
  2. 查询节点根据返回的数据做聚合
 
-
-
-## VM存储层的索引如何实现
 
 
 
