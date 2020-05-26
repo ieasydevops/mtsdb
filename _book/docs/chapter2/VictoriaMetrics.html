@@ -213,6 +213,13 @@
 
     
         
+        <li class="header">第六部分 附录</li>
+        
+        
+    
+
+    
+        
         <li class="header">参考文献</li>
         
         
@@ -268,6 +275,7 @@
 <li>VictoriaMetrics &#x529F;&#x80FD;&#x4EAE;&#x70B9;</li>
 <li>VictoriaMetrics &#x7684;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;</li>
 <li>VictoriaMetrics &#x96C6;&#x7FA4;&#x6A21;&#x5F0F;</li>
+<li>VictoriaMetrics &#x7EC4;&#x4EF6;&#x5206;&#x6790;</li>
 <li>VictoriaMetrics &#x6027;&#x80FD;&#x5206;&#x6790;</li>
 <li>VictoriaMetrics &#x6E90;&#x7801;&#x5206;&#x6790;</li>
 </ul>
@@ -318,8 +326,38 @@
 <li>&#x6027;&#x80FD;&#x548C;&#x5BB9;&#x91CF;&#x53EF;&#x4EE5;&#x6C34;&#x5E73;&#x6269;&#x5BB9;</li>
 <li>&#x652F;&#x6301;&#x591A;&#x79DF;&#x6237;&#xFF0C;&#xFF08;&#x591A;&#x4E2A;&#x540D;&#x5B57;&#x7A7A;&#x95F4;&#x9694;&#x79BB;&#xFF09;</li>
 </ul>
-<h1 id="&#x6A21;&#x5757;&#x5206;&#x6790;">&#x6A21;&#x5757;&#x5206;&#x6790;</h1>
-<h1 id="victoriametrics-&#x6E90;&#x7801;&#x5206;&#x6790;">VictoriaMetrics &#x6E90;&#x7801;&#x5206;&#x6790;</h1>
+<h1 id="victoriametrics-&#x7EC4;&#x4EF6;&#x5206;&#x6790;">VictoriaMetrics &#x7EC4;&#x4EF6;&#x5206;&#x6790;</h1>
+<h2 id="vmbackup">vmbackup</h2>
+<p> vmbackup &#x4ECE;&#x5373;&#x65F6;&#x5FEB;&#x7167;(instant snapshot)&#x4E2D;&#x521B;&#x5EFA;VM&#x6570;&#x636E;&#x5907;&#x4EFD;.</p>
+<p> VM &#x4F1A;&#x5BF9; -storageDataPath &#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x521B;&#x5EFA;&#x5373;&#x65F6;&#x5FEB;&#x7167;&#x3002;
+ &#x521B;&#x5EFA;&#x5FEB;&#x7167;&#x7684;&#x63A5;&#x53E3;</p>
+<pre><code> http://&lt;victoriametrics-addr&gt;:8428/snapshot/create
+</code></pre><p>&#x8FD4;&#x56DE;&#x7684;&#x7ED3;&#x679C;&#x4E3A;&#xFF1A;</p>
+<pre><code> {&quot;status&quot;:&quot;ok&quot;,&quot;snapshot&quot;:&quot;&lt;snapshot-name&gt;&quot;}
+</code></pre><p>&#x5FEB;&#x7167;&#x4FDD;&#x5B58;&#x7684;&#x8DEF;&#x5F84;&#x4E3A;&#xFF1A;</p>
+<pre><code>&lt;-storageDataPath&gt;/snapshots
+</code></pre><p>&#x5FEB;&#x7167;&#x53EF;&#x88AB;vmbackup &#x5728;&#x5408;&#x9002;&#x7684;&#x65F6;&#x95F4;&#x5F52;&#x6863;&#x5230;&#x5907;&#x4EFD;&#x5B58;&#x50A8;&#x670D;&#x52A1;&#x4E0A;&#x3002;</p>
+<h1 id="victoriametrics-&#x6027;&#x80FD;&#x5206;&#x6790;">VictoriaMetrics &#x6027;&#x80FD;&#x5206;&#x6790;</h1>
+<h2 id="&#x7C97;&#x7565;&#x4F30;&#x7B97;">&#x7C97;&#x7565;&#x4F30;&#x7B97;</h2>
+<p>   &#x5185;&#x5B58;&#xFF1A;</p>
+<pre><code>    &#x6BCF;&#x4E2A;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x6240;&#x9700;&#x7684;&#x5185;&#x5B58;&#x5C11;&#x4E8E;1KB&#xFF0C;&#x56E0;&#x6B64;&#xFF0C; 1GB&#x5DE6;&#x53F3;&#x7684;RAM &#x53EF;&#x4EE5; &#x652F;&#x6301; 1M &#x7684; &#x6D3B;&#x52A8;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x3002;
+    &#x6D3B;&#x52A8;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#xFF0C;&#x6307;&#x7684;&#x662F;&#x65B0;&#x5199;&#x5165;&#xFF0C;&#x6216;&#x67E5;&#x8BE2;&#x5230;&#x7684;&#x5E8F;&#x5217;&#x3002;
+    &#x901A;&#x8FC7; vm_cache_entries{type=&quot;storage/hour_metric_ids&quot;} &#x6307;&#x6807;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x6D3B;&#x52A8;&#x5E8F;&#x5217;&#x7684;&#x503C;
+    VM &#x5B58;&#x50A8;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x7F13;&#x5B58;&#x5230;RAM&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;
+    -memory.allowedPercent &#x5FC3;&#x667A;&#x5185;&#x5B58;&#x7684;&#x4F7F;&#x7528;&#x7387;
+</code></pre><p>   CPU&#x6838;:
+       &#x5355;&#x6838;CPU&#x5904;&#x7406; 30&#x4E07;/s &#x7684;&#x6570;&#x636E;&#x70B9;&#x5199;&#x5165;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;1M/s&#x7684;&#x6570;&#x636E;&#x70B9;&#x5199;&#x5165;&#xFF0C;&#x9700;&#x8981;&#x81F3;&#x5C11;4 &#x6838;&#x7684;CPU&#x3002;
+       &#x9488;&#x5BF9;&#x9AD8;&#x57FA;&#x6570;&#x7684;&#x6570;&#x636E; &#x6216; &#x6807;&#x7B7E;&#x8F83;&#x591A;&#x7684;&#x6570;&#x636E;&#x5E8F;&#x5217;&#x6570;&#x636E;&#xFF0C; &#x6444;&#x5165;&#x901F;&#x7387;&#x66F4;&#x4F4E;&#x3002;</p>
+<p>   &#x5B58;&#x50A8;&#x7A7A;&#x95F4;:
+     &#x4E00;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#xFF0C;&#x5927;&#x6982;&#x5360;&#x7528;&#x4E0D;&#x5230;1&#x4E2A;byte&#x3002; &#x56E0;&#x6B64;&#xFF0C;10&#x4E07;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#x7F8E;&#x79D2;&#x7684;&#x6570;&#x636E;&#x70B9;&#xFF0C;&#x4E00;&#x4E2A;&#x6708;&#x7684;&#x63D2;&#x5165;&#x91CF;&#xFF0C;&#x9700;&#x8981;
+     &#x81F3;&#x5C11;256GB&#x7684;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x3002;
+     &#x771F;&#x5B9E;&#x7684;&#x5B58;&#x50A8;&#x5927;&#x5C0F;&#x4E25;&#x91CD;&#x4EE5;&#x6765;&#x6570;&#x636E;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;<a href="https://medium.com/faun/victoriametrics-achieving-better-compression-for-time-series-data-than-gorilla-317bc1f95932" target="_blank">&#x66F4;&#x9AD8;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x66F4;&#x591A;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x3002;</a></p>
+<pre><code>&#x7F51;&#x7EDC;&#x5229;&#x7528;&#x7387;&#xFF1A;
+
+   &#x51FA;&#x53E3;&#x5E26;&#x5BBD;&#x5229;&#x7528;&#x7387;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x3002; &#x5165;&#x53E3;&#x7F51;&#x7EDC;&#x6D41;&#x91CF;&#xFF0C;Prometheus remote_API &#x5199;&#x5165;&#x7684;&#x6570;&#x636E;&#xFF0C;
+   &#x5927;&#x7EA6;&#x4E3A; &#xFF5E;100 byte/&#x6570;&#x636E;&#x70B9;&#x3002;&#x771F;&#x5B9E;&#x7684;&#x5165;&#x53E3;&#x5E26;&#x5BBD;&#x5229;&#x7528;&#x7387;&#xFF0C;&#x53D6;&#x51B3;&#x4E8E; &#x6444;&#x5165;&#x6307;&#x6807;&#x7684;&#x6807;&#x7B7E;&#x4E2A;&#x6570;&#x7684;&#x5747;&#x503C;&#x548C;&#x6BCF;&#x4E2A;&#x6807;&#x7B7E;
+   Value&#x503C; &#x5927;&#x5C0F;&#x7684;&#x5747;&#x503C;&#x3002; 
+</code></pre><h1 id="victoriametrics-&#x6E90;&#x7801;&#x5206;&#x6790;">VictoriaMetrics &#x6E90;&#x7801;&#x5206;&#x6790;</h1>
 <p>&#x6BD4;&#x8F83;&#x5173;&#x5FC3;&#x7684;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;</p>
 <ol>
 <li>VM&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;&#xFF1F;</li>
@@ -399,7 +437,7 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-25T22:27:35.605Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-25T22:27:51.768Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-26T05:35:05.053Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-26T05:39:53.317Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

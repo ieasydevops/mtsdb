@@ -40,6 +40,12 @@ bui#  Summary
 ## 第五部分 未来展望
 
 
+
+## 第六部分 附录
+
+ *[6.1 JumpConsistentHash](docs/chapter6/一致性Hash算法JCH.md)
+
+
 ## 参考文献
 
 ---

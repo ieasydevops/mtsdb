@@ -4,6 +4,7 @@
 - VictoriaMetrics 功能亮点
 - VictoriaMetrics 的架构设计
 - VictoriaMetrics 集群模式
+- VictoriaMetrics 组件分析
 - VictoriaMetrics 性能分析
 - VictoriaMetrics 源码分析
 
@@ -80,9 +81,60 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 
 
 
-# 模块分析
+# VictoriaMetrics 组件分析
 
 
+## vmbackup
+
+ vmbackup 从即时快照(instant snapshot)中创建VM数据备份.
+ 
+ VM 会对 -storageDataPath 目录下的所有数据，创建即时快照。
+ 创建快照的接口
+
+     http://<victoriametrics-addr>:8428/snapshot/create
+
+返回的结果为：
+
+	 {"status":"ok","snapshot":"<snapshot-name>"}
+
+快照保存的路径为：
+
+	<-storageDataPath>/snapshots
+
+快照可被vmbackup 在合适的时间归档到备份存储服务上。
+
+
+
+
+# VictoriaMetrics 性能分析
+
+## 粗略估算
+
+   内存：
+   		
+		每个时间序列所需的内存少于1KB，因此， 1GB左右的RAM 可以 支持 1M 的 活动时间序列。
+		活动时间序列，指的是新写入，或查询到的序列。
+		通过 vm_cache_entries{type="storage/hour_metric_ids"} 指标可以获取活动序列的值
+		VM 存储了大量的缓存到RAM中，可以通过
+		-memory.allowedPercent 心智内存的使用率
+         
+         
+   CPU核:
+       单核CPU处理 30万/s 的数据点写入，因此，1M/s的数据点写入，需要至少4 核的CPU。
+	   针对高基数的数据 或 标签较多的数据序列数据， 摄入速率更低。
+	   
+
+   存储空间:
+     一个数据点，大概占用不到1个byte。 因此，10万个数据点美秒的数据点，一个月的插入量，需要
+	 至少256GB的的存储空间。
+	 真实的存储大小严重以来数据的随机性，[更高的随机性，意味着更多的存储空间。](https://medium.com/faun/victoriametrics-achieving-better-compression-for-time-series-data-than-gorilla-317bc1f95932)
+
+    网络利用率：
+
+	   出口带宽利用率可以忽略。 入口网络流量，Prometheus remote_API 写入的数据，
+	   大约为 ～100 byte/数据点。真实的入口带宽利用率，取决于 摄入指标的标签个数的均值和每个标签
+	   Value值 大小的均值。 
+	 
 
 # VictoriaMetrics 源码分析
 
@@ -129,7 +181,6 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
 ```
 
 [写入逻辑代码](https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/app/vminsert/netstorage/insert_ctx.go#L169)
-
 
 
 
