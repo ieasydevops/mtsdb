@@ -110,26 +110,28 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 
 ## 粗略估算
 
-   内存：
+内存：
    		
 		每个时间序列所需的内存少于1KB，因此， 1GB左右的RAM 可以 支持 1M 的 活动时间序列。
 		活动时间序列，指的是新写入，或查询到的序列。
 		通过 vm_cache_entries{type="storage/hour_metric_ids"} 指标可以获取活动序列的值
 		VM 存储了大量的缓存到RAM中，可以通过
 		-memory.allowedPercent 心智内存的使用率
-         
-         
-   CPU核:
+           
+CPU核:
+
        单核CPU处理 30万/s 的数据点写入，因此，1M/s的数据点写入，需要至少4 核的CPU。
 	   针对高基数的数据 或 标签较多的数据序列数据， 摄入速率更低。
 	   
 
-   存储空间:
+存储空间:
+
      一个数据点，大概占用不到1个byte。 因此，10万个数据点美秒的数据点，一个月的插入量，需要
 	 至少256GB的的存储空间。
 	 真实的存储大小严重以来数据的随机性，[更高的随机性，意味着更多的存储空间。](https://medium.com/faun/victoriametrics-achieving-better-compression-for-time-series-data-than-gorilla-317bc1f95932)
 
-    网络利用率：
+
+网络利用率：
 
 	   出口带宽利用率可以忽略。 入口网络流量，Prometheus remote_API 写入的数据，
 	   大约为 ～100 byte/数据点。真实的入口带宽利用率，取决于 摄入指标的标签个数的均值和每个标签
