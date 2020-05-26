@@ -351,7 +351,7 @@
 </code></pre><p>&#x5B58;&#x50A8;&#x7A7A;&#x95F4;:</p>
 <pre><code> &#x4E00;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#xFF0C;&#x5927;&#x6982;&#x5360;&#x7528;&#x4E0D;&#x5230;1&#x4E2A;byte&#x3002; &#x56E0;&#x6B64;&#xFF0C;10&#x4E07;&#x4E2A;&#x6570;&#x636E;&#x70B9;&#x7F8E;&#x79D2;&#x7684;&#x6570;&#x636E;&#x70B9;&#xFF0C;&#x4E00;&#x4E2A;&#x6708;&#x7684;&#x63D2;&#x5165;&#x91CF;&#xFF0C;&#x9700;&#x8981;
  &#x81F3;&#x5C11;256GB&#x7684;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x3002;
- &#x771F;&#x5B9E;&#x7684;&#x5B58;&#x50A8;&#x5927;&#x5C0F;&#x4E25;&#x91CD;&#x4EE5;&#x6765;&#x6570;&#x636E;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;[&#x66F4;&#x9AD8;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x66F4;&#x591A;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x3002;](https://medium.com/faun/victoriametrics-achieving-better-compression-for-time-series-data-than-gorilla-317bc1f95932)
+ &#x771F;&#x5B9E;&#x7684;&#x5B58;&#x50A8;&#x5927;&#x5C0F;&#x4E25;&#x91CD;&#x4EE5;&#x6765;&#x6570;&#x636E;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;&#x66F4;&#x9AD8;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x66F4;&#x591A;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;.
 </code></pre><p>&#x7F51;&#x7EDC;&#x5229;&#x7528;&#x7387;&#xFF1A;</p>
 <pre><code>   &#x51FA;&#x53E3;&#x5E26;&#x5BBD;&#x5229;&#x7528;&#x7387;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x3002; &#x5165;&#x53E3;&#x7F51;&#x7EDC;&#x6D41;&#x91CF;&#xFF0C;Prometheus remote_API &#x5199;&#x5165;&#x7684;&#x6570;&#x636E;&#xFF0C;
    &#x5927;&#x7EA6;&#x4E3A; &#xFF5E;100 byte/&#x6570;&#x636E;&#x70B9;&#x3002;&#x771F;&#x5B9E;&#x7684;&#x5165;&#x53E3;&#x5E26;&#x5BBD;&#x5229;&#x7528;&#x7387;&#xFF0C;&#x53D6;&#x51B3;&#x4E8E; &#x6444;&#x5165;&#x6307;&#x6807;&#x7684;&#x6807;&#x7B7E;&#x4E2A;&#x6570;&#x7684;&#x5747;&#x503C;&#x548C;&#x6BCF;&#x4E2A;&#x6807;&#x7B7E;
@@ -365,7 +365,7 @@
 <li>VM&#x5B58;&#x50A8;&#x5C42;&#x7684;&#x7D22;&#x5F15;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xFF1F;</li>
 </ol>
 <h2 id="vm&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;&#xFF1F;">VM&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x96C6;&#x7FA4;&#x6A21;&#x5F0F;&#xFF1F;</h2>
-<h3 id="&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;">&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;</h3>
+<h3 id="&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;"><a href="https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/app/vminsert/netstorage/insert_ctx.go#L169" target="_blank">&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x903B;&#x8F91;</a></h3>
 <p>VM &#x7684;&#x5199;&#x5165;&#x903B;&#x8F91;&#xFF0C;&#x6839;&#x636E;&#x4F20;&#x5165;&#x7684; &#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x7684; &#x6807;&#x7B7E;{&#xFF08;labelName,lableValue&#xFF09;} &#x96C6;&#x5408;&#xFF0C;
 &#x6784;&#x5EFA;&#x5E8F;&#x5217;ID&#xFF0C;&#x7136;&#x540E;&#x6839;&#x636E;&#x5B58;&#x50A8;&#x8282;&#x70B9;&#x4E2A;&#x6570;&#x505A;<a href="&#x4E00;&#x81F4;&#x6027;Hash&#x7B97;&#x6CD5;JCH.md">&#x8DF3;&#x8DC3;&#x4E00;&#x81F4;&#x6027;Hash</a>&#xFF0C;&#x627E;&#x5230;&#x5199;&#x5165;&#x7684;&#x8282;&#x70B9;&#x3002;</p>
 <pre><code>// GetStorageNodeIdx returns storage node index for the given at and labels.
@@ -390,15 +390,12 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
     idx := int(jump.Hash(h, int32(len(storageNodes))))
     return idx
 }
-</code></pre><p><a href="https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/app/vminsert/netstorage/insert_ctx.go#L169" target="_blank">&#x5199;&#x5165;&#x903B;&#x8F91;&#x4EE3;&#x7801;</a></p>
-<h3 id="&#x96C6;&#x7FA4;&#x67E5;&#x903B;&#x8F91;">&#x96C6;&#x7FA4;&#x67E5;&#x903B;&#x8F91;</h3>
+</code></pre><h3 id="&#x96C6;&#x7FA4;&#x67E5;&#x903B;&#x8F91;">&#x96C6;&#x7FA4;&#x67E5;&#x903B;&#x8F91;</h3>
 <ol>
 <li>&#x5C06;&#x8F93;&#x5165;&#x7684;&#x67E5;&#x8BE2;&#x5206;&#x89E3;&#x8BED;&#x53E5;&#x5206;&#x89E3;&#x4E3A;&#x9488;&#x5BF9;&#x5B58;&#x50A8;&#x8282;&#x70B9;&#x7684;&#x67E5;&#x8BE2;&#x4EFB;&#x52A1;&#xFF0C;&#x5E76;&#x5C06;&#x8FD9;&#x4E9B;&#x4EFB;&#x52A1;&#x63A8;&#x9001;&#x5230;&#x6240;&#x6709;&#x7684;&#x5B58;&#x50A8;&#x8282;&#x70B9;&#xFF1B;</li>
 <li>&#x67E5;&#x8BE2;&#x8282;&#x70B9;&#x6839;&#x636E;&#x8FD4;&#x56DE;&#x7684;&#x6570;&#x636E;&#x505A;&#x805A;&#x5408;</li>
 </ol>
-<pre><code>
-
-</code></pre><h2 id="vm&#x5B58;&#x50A8;&#x5C42;&#x7684;&#x7D22;&#x5F15;&#x5982;&#x4F55;&#x5B9E;&#x73B0;">VM&#x5B58;&#x50A8;&#x5C42;&#x7684;&#x7D22;&#x5F15;&#x5982;&#x4F55;&#x5B9E;&#x73B0;</h2>
+<h2 id="vm&#x5B58;&#x50A8;&#x5C42;&#x7684;&#x7D22;&#x5F15;&#x5982;&#x4F55;&#x5B9E;&#x73B0;">VM&#x5B58;&#x50A8;&#x5C42;&#x7684;&#x7D22;&#x5F15;&#x5982;&#x4F55;&#x5B9E;&#x73B0;</h2>
 <h2 id="&#x53C2;&#x8003;&#x6587;&#x732E;">&#x53C2;&#x8003;&#x6587;&#x732E;</h2>
 <p><a href="https://github.com/VictoriaMetrics/VictoriaMetrics/blob/cluster/README.md" target="_blank">VM&#x96C6;&#x7FA4;&#x67B6;&#x6784;&#x6A21;&#x5F0F;</a></p>
 
@@ -436,7 +433,7 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-26T05:42:37.009Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-26T05:42:43.956Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-26T05:45:58.774Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-26T06:00:22.438Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
