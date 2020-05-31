@@ -11,6 +11,26 @@
 # VictoriaMetrics 数据库的历史
 
 
+## 使用Prometheus，以及发现的问题
+
+作者 Aliaksandr Valialkin， 之前写过fastHttp,性能比 go的 net/http库提升了不少。
+个人git账户：https://github.com/valyala。
+
+作者 16年开始用 prometheus 和grafana 做监控，到18年，监控的序列增长的了30万。
+迁移到Promtheus2.0的时候发现了几个问题
+
+-  查询超过几天的范围查询，会比较慢。主要的场景是：长期的趋势查询，和 容量规划
+
+-  将数据保留策略从15天升级到一年后，发现吃掉了大量的存储空间
+
+-  不清楚如何防止 当存储挂掉的时候，prometheus 的数据丢失。由于官网推荐的方案是采集两份
+   数据做HA，这大大的增加我存储成本。
+
+## 寻求解决方案。
+
+
+作者开始探索这几个问题的解决方案，文件就聚焦到了 prometheus 的远程长期存储方案上。
+上面的
 
 
 ##  VictoriaMetrics 功能亮点
@@ -18,7 +38,6 @@
 - 快
 - 省
 - 易于扩展
-
 
 
 #  VictoriaMetrics 的架构设计

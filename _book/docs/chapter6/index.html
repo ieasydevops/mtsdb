@@ -1,0 +1,421 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>6.2 索引 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="skipList.html" />
+    
+    
+    <link rel="prev" href="一致性Hash算法JCH.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第一部分 需求分析，业务建模</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    第一章 时间序列数据存储的业务场景
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../chapter1/时间序列数据的定义.html">
+            
+                <a href="../chapter1/时间序列数据的定义.html">
+            
+                    
+                    1.1 数据序列数据的定义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../chapter1/互联网监控.html">
+            
+                <a href="../chapter1/互联网监控.html">
+            
+                    
+                    1.2 互联网的监控
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第二部分 现状分析，技术调研</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    第二章 时序数据库的比较分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../chapter2/VictoriaMetrics.html">
+            
+                <a href="../chapter2/VictoriaMetrics.html">
+            
+                    
+                    2.1时间序列数据库VictoriaMetrics分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第三部分 模型推演，规范设计</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第四部分 代码实现，实践验证</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第五部分 未来展望</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第六部分 附录</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="一致性Hash算法JCH.html">
+            
+                <a href="一致性Hash算法JCH.html">
+            
+                    
+                    6.1 JumpConsistentHash
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="7.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    6.2 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="skipList.html">
+            
+                <a href="skipList.html">
+            
+                    
+                    6.3 跳表的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">参考文献</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >6.2 索引</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x76EE;&#x6807;">&#x76EE;&#x6807;</h1>
+<ul>
+<li>&#x4E86;&#x89E3;&#x4E00;&#x822C;&#x7D22;&#x5F15;&#x7684;&#x5B9E;&#x73B0;&#x539F;&#x7406;</li>
+<li>MySQL&#x7684;&#x7D22;&#x5F15;</li>
+</ul>
+<h1 id="mysql&#x7684;&#x7D22;&#x5F15;">MySQL&#x7684;&#x7D22;&#x5F15;</h1>
+<h2 id="&#x95EE;&#x9898;">&#x95EE;&#x9898;</h2>
+<p>&#x4E3A;&#x4EC0;&#x4E48; MySQL &#x7684; InnoDB &#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x4F1A;&#x9009;&#x62E9; B+ &#x6811;&#x4F5C;&#x4E3A;&#x5E95;&#x5C42;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x800C;&#x4E0D;&#x9009;&#x62E9; B &#x6811;&#x6216;&#x8005;&#x54C8;&#x5E0C;&#xFF1F;</p>
+<h2 id="&#x539F;&#x56E0;&#x5206;&#x6790;">&#x539F;&#x56E0;&#x5206;&#x6790;</h2>
+<p>&#x4E24;&#x4E2A;&#x89D2;&#x5EA6;</p>
+<ul>
+<li><p>InnoDB &#x9700;&#x8981;&#x652F;&#x6301;&#x7684;&#x573A;&#x666F;&#x548C;&#x529F;&#x80FD;&#x9700;&#x8981;&#x5728;&#x7279;&#x5B9A;&#x67E5;&#x8BE2;&#x4E0A;&#x62E5;&#x6709;&#x8F83;&#x5F3A;&#x7684;&#x6027;&#x80FD;&#xFF1B;</p>
+</li>
+<li><p>CPU &#x5C06;&#x78C1;&#x76D8;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x52A0;&#x8F7D;&#x5230;&#x5185;&#x5B58;&#x4E2D;&#x9700;&#x8981;&#x82B1;&#x8D39;&#x5927;&#x91CF;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x4F7F;&#x5F97; B+ &#x6811;&#x6210;&#x4E3A;&#x4E86;&#x975E;&#x5E38;&#x597D;&#x7684;&#x9009;&#x62E9;&#xFF1B;</p>
+</li>
+</ul>
+<h3 id="&#x8BFB;&#x5199;&#x6027;&#x80FD;">&#x8BFB;&#x5199;&#x6027;&#x80FD;</h3>
+<ul>
+<li><p>Online Transaction Processing</p>
+<p> &#x4F20;&#x7EDF;&#x7684;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5904;&#x7406;&#x57FA;&#x672C;&#x7684;&#x3001;&#x65E5;&#x5E38;&#x7684;&#x4E8B;&#x52A1;&#x5904;&#x7406;</p>
+</li>
+<li><p>Online Analytical Processing</p>
+<p>&#x5728;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x7528;&#x4E8E;&#x652F;&#x6301;&#x4E00;&#x4E9B;&#x590D;&#x6742;&#x7684;&#x5206;&#x6790;&#x548C;&#x51B3;&#x7B56;</p>
+</li>
+</ul>
+<h3 id="b-tree-vs-b-tree">B Tree vs B+ Tree</h3>
+<pre><code>The most important difference between B-tree and B+ tree is that B+ tree only has leaf nodes to store data, and other nodes are used for indexing, while B-trees have Data fields for each index node.
+</code></pre>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="一致性Hash算法JCH.html" class="navigation navigation-prev " aria-label="Previous page: 6.1 JumpConsistentHash">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="skipList.html" class="navigation navigation-next " aria-label="Next page: 6.3 跳表的实现">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"6.2 索引","level":"7.2","depth":1,"next":{"title":"6.3 跳表的实现","level":"7.3","depth":1,"path":"docs/chapter6/skipList.md","ref":"docs/chapter6/skipList.md","articles":[]},"previous":{"title":"6.1 JumpConsistentHash","level":"7.1","depth":1,"path":"docs/chapter6/一致性Hash算法JCH.md","ref":"docs/chapter6/一致性Hash算法JCH.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter6/index.md","mtime":"2020-05-27T03:44:35.288Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-31T08:09:52.599Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

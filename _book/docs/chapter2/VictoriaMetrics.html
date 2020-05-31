@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="../chapter6/一致性Hash算法JCH.html" />
+    
     
 
     </head>
@@ -217,6 +219,45 @@
         
         
     
+        <li class="chapter " data-level="7.1" data-path="../chapter6/一致性Hash算法JCH.html">
+            
+                <a href="../chapter6/一致性Hash算法JCH.html">
+            
+                    
+                    6.1 JumpConsistentHash
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="../chapter6/">
+            
+                <a href="../chapter6/">
+            
+                    
+                    6.2 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="../chapter6/skipList.html">
+            
+                <a href="../chapter6/skipList.html">
+            
+                    
+                    6.3 跳表的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
         
@@ -280,6 +321,23 @@
 <li>VictoriaMetrics &#x6E90;&#x7801;&#x5206;&#x6790;</li>
 </ul>
 <h1 id="victoriametrics-&#x6570;&#x636E;&#x5E93;&#x7684;&#x5386;&#x53F2;">VictoriaMetrics &#x6570;&#x636E;&#x5E93;&#x7684;&#x5386;&#x53F2;</h1>
+<h2 id="&#x4F7F;&#x7528;prometheus&#xFF0C;&#x4EE5;&#x53CA;&#x53D1;&#x73B0;&#x7684;&#x95EE;&#x9898;">&#x4F7F;&#x7528;Prometheus&#xFF0C;&#x4EE5;&#x53CA;&#x53D1;&#x73B0;&#x7684;&#x95EE;&#x9898;</h2>
+<p>&#x4F5C;&#x8005; Aliaksandr Valialkin&#xFF0C; &#x4E4B;&#x524D;&#x5199;&#x8FC7;fastHttp,&#x6027;&#x80FD;&#x6BD4; go&#x7684; net/http&#x5E93;&#x63D0;&#x5347;&#x4E86;&#x4E0D;&#x5C11;&#x3002;
+&#x4E2A;&#x4EBA;git&#x8D26;&#x6237;&#xFF1A;<a href="https://github.com/valyala&#x3002;" target="_blank">https://github.com/valyala&#x3002;</a></p>
+<p>&#x4F5C;&#x8005; 16&#x5E74;&#x5F00;&#x59CB;&#x7528; prometheus &#x548C;grafana &#x505A;&#x76D1;&#x63A7;&#xFF0C;&#x5230;18&#x5E74;&#xFF0C;&#x76D1;&#x63A7;&#x7684;&#x5E8F;&#x5217;&#x589E;&#x957F;&#x7684;&#x4E86;30&#x4E07;&#x3002;
+&#x8FC1;&#x79FB;&#x5230;Promtheus2.0&#x7684;&#x65F6;&#x5019;&#x53D1;&#x73B0;&#x4E86;&#x51E0;&#x4E2A;&#x95EE;&#x9898;</p>
+<ul>
+<li><p>&#x67E5;&#x8BE2;&#x8D85;&#x8FC7;&#x51E0;&#x5929;&#x7684;&#x8303;&#x56F4;&#x67E5;&#x8BE2;&#xFF0C;&#x4F1A;&#x6BD4;&#x8F83;&#x6162;&#x3002;&#x4E3B;&#x8981;&#x7684;&#x573A;&#x666F;&#x662F;&#xFF1A;&#x957F;&#x671F;&#x7684;&#x8D8B;&#x52BF;&#x67E5;&#x8BE2;&#xFF0C;&#x548C; &#x5BB9;&#x91CF;&#x89C4;&#x5212;</p>
+</li>
+<li><p>&#x5C06;&#x6570;&#x636E;&#x4FDD;&#x7559;&#x7B56;&#x7565;&#x4ECE;15&#x5929;&#x5347;&#x7EA7;&#x5230;&#x4E00;&#x5E74;&#x540E;&#xFF0C;&#x53D1;&#x73B0;&#x5403;&#x6389;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;</p>
+</li>
+<li><p>&#x4E0D;&#x6E05;&#x695A;&#x5982;&#x4F55;&#x9632;&#x6B62; &#x5F53;&#x5B58;&#x50A8;&#x6302;&#x6389;&#x7684;&#x65F6;&#x5019;&#xFF0C;prometheus &#x7684;&#x6570;&#x636E;&#x4E22;&#x5931;&#x3002;&#x7531;&#x4E8E;&#x5B98;&#x7F51;&#x63A8;&#x8350;&#x7684;&#x65B9;&#x6848;&#x662F;&#x91C7;&#x96C6;&#x4E24;&#x4EFD;
+&#x6570;&#x636E;&#x505A;HA&#xFF0C;&#x8FD9;&#x5927;&#x5927;&#x7684;&#x589E;&#x52A0;&#x6211;&#x5B58;&#x50A8;&#x6210;&#x672C;&#x3002;</p>
+</li>
+</ul>
+<h2 id="&#x5BFB;&#x6C42;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;">&#x5BFB;&#x6C42;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;</h2>
+<p>&#x4F5C;&#x8005;&#x5F00;&#x59CB;&#x63A2;&#x7D22;&#x8FD9;&#x51E0;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x6587;&#x4EF6;&#x5C31;&#x805A;&#x7126;&#x5230;&#x4E86; prometheus &#x7684;&#x8FDC;&#x7A0B;&#x957F;&#x671F;&#x5B58;&#x50A8;&#x65B9;&#x6848;&#x4E0A;&#x3002;
+&#x4E0A;&#x9762;&#x7684;</p>
 <h2 id="victoriametrics-&#x529F;&#x80FD;&#x4EAE;&#x70B9;">VictoriaMetrics &#x529F;&#x80FD;&#x4EAE;&#x70B9;</h2>
 <ul>
 <li>&#x5FEB;</li>
@@ -442,6 +500,10 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
             
                 
                 
+                <a href="../chapter6/一致性Hash算法JCH.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 6.1 JumpConsistentHash">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
             
         
     </div>
@@ -449,7 +511,7 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-26T08:56:47.014Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-26T09:16:01.749Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"next":{"title":"6.1 JumpConsistentHash","level":"7.1","depth":1,"path":"docs/chapter6/一致性Hash算法JCH.md","ref":"docs/chapter6/一致性Hash算法JCH.md","articles":[]},"previous":{"title":"第二章 时序数据库的比较分析","level":"3.1","depth":1,"ref":"","articles":[{"title":"2.1时间序列数据库VictoriaMetrics分析","level":"3.1.1","depth":2,"path":"docs/chapter2/VictoriaMetrics.md","ref":"docs/chapter2/VictoriaMetrics.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/VictoriaMetrics.md","mtime":"2020-05-31T08:09:22.391Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-31T08:09:52.599Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
