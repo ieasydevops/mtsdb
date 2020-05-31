@@ -1,4 +1,4 @@
-# 2.1.1 概述
+# 2.2.1 概述
 
 - VictoriaMetrics 数据库的历史
 - VictoriaMetrics 功能亮点
@@ -8,7 +8,7 @@
 - VictoriaMetrics 性能分析
 - VictoriaMetrics 源码分析
 
-# 2.1.2 VictoriaMetrics 数据库的历史
+# 2.2.2 VictoriaMetrics 数据库的历史
 
 
 ## 使用Prometheus，以及发现的问题
@@ -17,7 +17,7 @@
 个人git账户：https://github.com/valyala。
 
 作者 16年开始用 prometheus 和grafana 做监控，到18年，监控的序列增长的了30万。
-迁移到Promtheus2.1.0的时候发现了几个问题
+迁移到Promtheus2.2.0的时候发现了几个问题
 
 -  查询超过几天的范围查询，会比较慢。主要的场景是：长期的趋势查询，和 容量规划
 
@@ -33,14 +33,14 @@
 上面的
 
 
-# 2.1.3  VictoriaMetrics 功能亮点
+# 2.2.3  VictoriaMetrics 功能亮点
 
 - 快
 - 省
 - 易于扩展
 
 
-# 2.1.4 VictoriaMetrics 的架构设计
+# 2.2.4 VictoriaMetrics 的架构设计
 
 
 VM集群三个服务组件构成，写（Insert）,查（Select）,存储（Storage）组成。
@@ -82,7 +82,7 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 ```
 
 
-# 2.1.5 VictoriaMetrics 集群模式
+# 2.2.5 VictoriaMetrics 集群模式
 
 ### 何时采用集群模式
 
@@ -100,7 +100,7 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 
 
 
-# 2.1.6 VictoriaMetrics 组件分析
+# 2.2.6 VictoriaMetrics 组件分析
 
 
 ## vmbackup
@@ -125,7 +125,7 @@ VM 通过NS，实现多个租户的隔离。每个租户通过，accountID:proje
 
 
 
-# 2.1.7 VictoriaMetrics 性能分析
+# 2.2.7 VictoriaMetrics 性能分析
 
 ## 粗略估算
 
@@ -166,7 +166,7 @@ CPU核:
 
    3.8TB NVMe drive
 
-   [n2.1.xlarge.x86](https://www.packet.com/cloud/servers/n2-xlarge/)
+   [n2.2.xlarge.x86](https://www.packet.com/cloud/servers/n2-xlarge/)
 
   
 
@@ -201,7 +201,7 @@ CPU核:
 
 	 
 
-# 2.1.8 VictoriaMetrics 源码分析
+# 2.2.8 VictoriaMetrics 源码分析
 
 比较关心的两个问题：
 
@@ -246,7 +246,7 @@ func (ctx *InsertCtx) GetStorageNodeIdx(at *auth.Token, labels []prompb.Label) i
 ### 集群查逻辑
 
  1. 将输入的查询分解语句分解为针对存储节点的查询任务，并将这些任务推送到所有的存储节点；
- 2.1. 查询节点根据返回的数据做聚合
+ 2.2. 查询节点根据返回的数据做聚合
 
 
 
