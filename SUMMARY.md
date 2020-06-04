@@ -7,8 +7,7 @@ bui#  Summary
 * 第一章 时间序列数据的定义和业务建模
 
   * [1.1 数据序列数据的定义](docs/chapter1/时间序列数据的定义.md)
-
-  * [1.2 互联网的监控](docs/chapter1/互联网监控.md)
+  * [1.2 时间序列数据的特性](docs/chapter1/时间序列数据的特性.md)
 
 
 ---
@@ -17,11 +16,12 @@ bui#  Summary
 
 * 第二章 时序数据库的比较分析
 
-  * [2.1 时间序列数据库分析模版](docs/chapter2/时序数据库一般分析方法.md)
-
+  * [2.1 时间序列数据库分析概览说明](docs/chapter2/时序数据库一般分析方法.md)
   * [2.2 时间序列数据库VictoriaMetrics分析](docs/chapter2/VictoriaMetrics.md)
+  * 2.3 时间序列数据库Influxdb分析
+    * [2.3.1 Influxdb 概览](docs/chapter2/influxdb/InfluxdbOverView.md)
+    * [2.3.2 Influxdb 存储引擎](docs/chapter2/influxdb/InfluxdbStoreEngine.md)
 
-  
 ---
 
 
