@@ -1,0 +1,41 @@
+# Influxdb  读路径
+
+## 读取流程
+
+1. Query：InfluxQL允许用户使用类SQL语句执行查询分析聚合，InfluxQL语法详见：https://docs.influxdata.com/influxdb/v1.0/query_language/spec/
+
+2. QueryParser：InfluxQL进入系统之后，系统首先会对InfluxQL执行切词并解析为抽象语法树（AST），抽象树中标示出了数据源、查询条件、查询列以及聚合函数等等，分别对应上图中Source、Condition以及Aggration。InfluxQL没有使用通用的第三方AST解析库，自己实现了一套解析库，对细节感兴趣的可以参考：https://github.com/influxdata/influxql。接着InfluxDB会将抽象树转化为一个Query实体对象，供后续查询中使用。
+
+3. BuildIterators：InfluxQL语句转换为Query实体对象之后，就进入读取流程中最重要最核心的一个环节 – 构建Iterator体系。笔者将Iterator体系分为三个子体系：顶层Iterator子体系、中间层Iterator子体系以及底层Iterator子体系。
+
+3.1 顶层Iterator子体系
+
+InfluxDB会为InfluxQL中所有查询field构造一个FieldIterator，FieldIterator表示每个查询列都会创建一个Iterator（称为ExprIterator），这是因为InfluxDB是列式存储系统，所有的列都是独立存储的，因此基于列分别构建Iterator方便执行查询聚合操作。比如sum(click)，sum(impressions)和sum(revenue)三个查询列就分别对应一个ExprIterator。
+
+ExprIterator根据查询列值是否需要聚合可以分为VarRefIterator和CallIterator，前者表示列值可以直接查询返回，不需要聚合；后者表示查询列需要执行某些聚合操作。示例中查询sum(click)就是典型的CallIterator，
+CallIterator实际实现分为两步，
+首先通过VarRefIterator把对应的列值查询到，再通过对应的Reduce函数执行相应聚合。
+    比如sum(click)这个CallIterator就需要雇佣一个VarRefIterator把满足条件的click列值拿上来，再执行Reduce函数sum执行聚合操作
+
+
+3.2 中间层Iterator子体系
+
+InfluxDB中一个查询列的值可能分布在不同的Shard上，需要根据TimeRange决定给定时间段在哪些shard上，并为每个Shard构建一个Iterator，雇佣这个逻辑Iterator负责查询这个shard上对应列的列值。目前单机版所有shard都在同一个InfluxDB实例上，如果实现分布式管理，需要在这一层做处理。
+
+3.3 底层Iterator子体系
+
+底层Iterator子体系负责单个shard(engine)上满足条件的某一列值的查找或者单机聚合，是Iterator体系中实际干活的Iterator。比如满足where advertiser = “baidu.com” 这个条件就需要先在倒排索引中根据advertiser = “baidu.com”查到包含该tag的所有series，再为每个series构建一个TagsetIterator去查找对应的列值，TagsetIterator会将查找指针置于最小的列值处。
+
+
+总结：Iterator体系的构建，查询按照查询列构建最顶层FieldIterator，每个FieldIterator会根据TimeRange雇佣多个ShardIterator去处理单个Shard上面对应列值的查找，对查找到的值要么直接返回要么执行Reduce函数进行聚合操作。每个Shard内部首先会根据查询条件利用倒排索引定位到所有满足条件的series，再为每个series构建一个TagsetIterator用来查找具体的列值数据。因此，TagsetIterator是整个体系中唯一干活的Iterator，所有其他上层Iterator都是逻辑Iterator。
+
+
+同一个Shard内的所有TagsetIterator在构建完成会合并成一个ShardIterator，这个合并过程是对这些TagsetIterator进行排序的过程，排序规则是按照series由小到大排序或者由大到小排序（由用户SQL对查询结果是由小到大排序还是由大到小排序决定）。同理，一个列值对应的多个ShardIterator构建完成之后会合并成一个FieldIterator，合并过程亦是一个排序过程，不过排序是针对所有Shard中的TagsetIterator进行的，排序规则是先比较series，再比较时间。可见，一个FieldIterator最终是由一系列排序过的TagsetIterator构成的。
+
+4. Emitter.Emit：Iterator体系构建完成之后就完成了查询聚合前的准备工作，接下来就开始干活了。干活逻辑简单来讲是遍历所有FieldIterator，对每个FieldIterator执行一次Next函数，就会返回每个查询列的结果值，组装到一起就是一行数据。FieldIterator执行Next()函数会传递到最底层的TagsetIterator，TagsetIterator执行Next函数实际返回真实的时序数据。
+
+
+
+
+
+## 多多岛
