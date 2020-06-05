@@ -1,9 +1,15 @@
-# Influxdb 存储引擎
+# Influxdb 存储引擎概览
+
+# 概览
+
+* 目标
+* 发展历史
+* 核心领域模型
+* 值得思考的几个问题
 
 
-## 概览
 
-## 目标
+# 目标
 
    Influxdb 的存储引擎发展历史很有趣，通过详细了解其发展历程对我们了解时间序列数据存储引擎的设计很有
 必要。
@@ -13,48 +19,70 @@
 * 数据查询结果齐全并且正确
 * 数据第一，性能第二
 
+# 发展历史
 
-
-## 存储引擎的发展历史
-
-### LevalDB 时代
+## LevalDB 时代
 
    数据序列的特性，决定了在选择存储引擎时，主要的考量有三点：
-1. 写入吞吐性能高
-2. 能做Range查询
+1. 写入吞吐性能高。底层是基于LSM实现，对写友好。
+2. 存储SeriesKey是有序的，可以基于SeriesKey做Range查询。
 3. 稳定，值得依赖，能基于此存储上生产环境
 
 基于这三点，Influxdb 选择了LevalDB. 然而，LevelDB的几个致命的缺点，导致了后来在底层存储引擎上纠结了一年多。主要的问题如下：
 
 1. LevelDB 不支持热点备份。如果备份，需要关掉当前的数据库实例，做完拷贝，在启服务。
+
 2. 对过期数据的删除，会导致大量的IO，这个量级和数据的写入没啥区别。
+
 3. 每个序列映射一个小文件，对历史数据的批量读（比如查询6个月，或一年一系列数据的），会引发灾难性的问题，文件句柄耗尽。
 
 虽然，针对问题1 有LevelDB的变种数据库，如RocksDB 和 HyperLevelDB 能解决，但是，他们解决不了问题3。
 针对问题2，Influxdb针对时间序列数据库，也做了按照时间分片，比如过去的数据 按7天生产一个shard, 结合 RocksDB 引入的列族特性，可以解决2的问题，但是还是解决不了问题3.
 
-### BoltDB时代
+## BoltDB时代
 
 经过一年多的纠结，Influxdb 终于放弃了 LevelDB. 转而用BoltDB替换了LevelDB。
 0.9.0 到 0.9.2 版本是基于BoltDB 的。
 BoltDB 是受到LMDB数据库的启发，用纯粹GO语言实现的一个数据库。BoltDB 的优势就是稳定，简单。基于
-B+树 和mmap实现，解决了问题3. 但是随着数据文件大小增长到几GB时，会出现IOPS的 爆涨。Influxdb 团队
+B+树和mmap实现，解决了问题3. 但BoltDB 采用B+ 树的结构和LSM 结构相比，在写入性能上处于弱势。
+随着数据文件大小增长到几GB时，会出现IOPS的瓶颈。Influxdb 团队
 为了解决这个问题，在BoltDB 之上，增加了 WAL，试图减少随机写的数量，但是这只是延迟了落盘的随机写的时机，并没有根本解决问题。
 
-### TSM 时代
+
+## TSM 时代
+
  在Bolt之上构建第一个WAL实现的经验给Influxdb团队信心，来解决数据写的问题。由于WAL性能比较出色，问题在
  索引上，因此他们考虑 创建一个 类似 LSM 树的结构，来提高整体的写入负载。这个东西，就是TSM。
 
 
 
-## 存储引擎的实现
-
-### 存储引擎的核心概念
+# 核心领域模型
 
 * WAL（Write Ahead Log）
-* 缓存
-* Time-Structed MergeTree (TSM )
+* Cache 
+* Time-Structed MergeTree (TSM)
 * Time Series Index (TSI)
+* Compaction
+* Continuous Queries
+
+## WAL 
+
+数据会先写入WAL，后进入memory-index和cache，写入WAL会同步刷盘，保证数据持久化。Cache内数据会异步刷入TSM File，在Cache内数据未持久化到TSM File之前若遇到进程crash，则会通过WAL内的数据来恢复cache内的数据
+
+## Cache
+
+TSM的Cache与LSM的MemoryTable类似，其内部的数据为WAL中未持久化到TSM File的数据。若进程发生failover，则cache中的数据会根据WAL中的数据进行重建
+
+## TSM
+
+TSM File与LSM的SSTable类似，TSM File由四个部分组成，分别为：header, blocks, index和footer。
+
+
+## TSI
+
+时序数据库除了支撑时序数据的存储和计算外，还需要能够提供多维度查询。TSI 主要是针对维度标签信息建立
+倒排索引，从而实现多维度的快速查询。
+
 
 
 

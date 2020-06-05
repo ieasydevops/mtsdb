@@ -1,47 +1,55 @@
 # 时间序列索引 [Time Series Index (TSI)]
 
-## 目标
-
-* TSI 的背景
-
-* TSI 存储布局
-
 ## TSI 的背景
 
-### 时间序列索引解决的问题
+Influxdb 数据摄入后，不仅存储数据信息，也会基于 measurement,tag 构建索引。从而能提供
+高效的多维度查询能力。早期的时候，索引全部构建在内存中，这导致了influxdb 摄入数据的能力上限
+受到机器内存的制约。
+因此，引入了基于磁盘存储的索引。TSI 使用操作系统的页缓存类实现冷热数据的分离。热数据放在缓存，
+而冷数据放在磁盘。
 
-为了支持大规模的时间序列 -即单时间序列高基数的数据存储，Influx 增加了时间序列索引。通过TSI的存储引擎，用户能够处理上百万的时间序列。
-这项工作代表了自influxdata 于2016年发布时间序列合并树（TSM）存储引擎以来数据库中最重要的技术进步。
+### TSI 概览
 
+[Influxdb 实际看上去，像两个数据库合并为一,一个时间序列数据存储(TSM)
+和一个对指标，标签，和元数据字段(filed)的倒排索引 (TSI ).](https://docs.influxdata.com/influxdb/v1.8/concepts/time-series-index/#issues-solved-by-tsi-and-remaining-to-be-solved)
 
-### TSI的由来
-
-Influxdb 实际看上去，像两个数据库合并为一,一个时间序列数据存储(TSM)
-和一个对指标，标签，和元数据字段(filed)的倒排索引 (TSI ).
-
-#### TSM(Time-Structured Merge Tree)
-
-时间结构聚合树（TSM）引擎于2015年构建，并于2016年继续增强，旨在解决原始时间序列数据获得最大吞吐量、压缩和查询速度的问题。
-在TSI之前，反向索引是一种内存中的数据结构，它是在基于TSM中的数据启动数据库时构建的。
-这意味着，对于每个measurement、tag key-value pair 和 failed Name，内存中都有一个查找表来将这些元数据位映射到底层时间序列。对于具有大量短暂序列的用户，随着新时间序列的创建，内存利用率不断增加。而且，启动时间增加了，因为所有这些数据都必须在启动时加载到堆内存中。
-
-#### TSI (Time Series Index)
-
-新的时间序列索引（TSI）将 在内存中映射 移动到磁盘文件上，这意味着我们让操作系统处理最近使用最少的（LRU）内存。与原始时间序列数据的TSM引擎非常相似，我们有一个预写日志，其中有一个内存结构，该结构在查询时与内存映射索引合并。后台协程不断运行，将索引压缩成越来越大的文件，以避免在查询时执行过多的索引合并。
-在后台，我们使用类似（Robin Hood Hashing ）的技术来进行快速索引查找，使用HyperLogLog++来保存基数的估计。这以技术可以使我们能够向查询语言添加一些内容，比如SHOW CARDINALITY查询。
-
-#### TSI 解决的问题以及遗留的问题
-
-时间序列索引（TSI）解决的主要问题是短暂的时间序列。最常见的情况是，希望通过在标记中放置标识符来跟踪每个进程或每个容器指标。例如，Kubernetes的Heapster项目就是这样做的。对于不再适合写入或查询的序列，它们不会占用内存空间。
-
-Heapster项目和类似的用例没有解决的问题是限制了查询返回的数据的范围。我们将在将来更新查询语言，以便按时间限制这些结果。我们也不能解决让所有这些系列的读写都很热的问题。对于这个问题，扩展集群是解决方案。我们需要在查询语言中添加护栏和限制，并最终将增加，溢出到磁盘的处理逻辑。
+```
+InfluxDB actually looks like two databases in one, a time series data store and an
+inverted index for the measurement, tag, and field metadata.
+```
 
 
-## TSI 存储布局设计
+### TSI 面临的挑战
 
+在InfluxDB 1.3之前，TSI 只支持Memory-based的方式，即所有的TimeSeries的索引都是放在内存内。
+这意味着，对于每个序列 SeriesKey (由 measurement、tag key-value pair 和 failed Name 构
+成的唯一主键)，都会在内存中维护一个 SeriesKey 到序列的映射。 这种方式的好处就是查询效率高，但也
+存在不少问题，主要的问题如下：
+
+* 支持的Series基数有限。 
+
+    主要受制于内存的限制。若TimeSeries个数超过上限，则整个数据库会处于不可服务的状态。这类问题
+    一般由用户错误的设计TagKey引发，例如某个TagValue是一个随机的ID。一旦遇到这个问题的话，也很
+    难恢复，往往只能通过手动删数据
+
+* 进程重启，恢复数据的时间会比较长。
+
+   因为需要从所有的TSM文件中加载全量的TimeSeries信息来在内存中构建索引。
+
+* [时间序列数据的序列分流问题](https://fabxc.org/tsdb/)。 这应该是最严重的问题
+    
+   所谓的时间序列分流，指的是某些序列中的Tag value 值，会存在一段时间就消失了，常见的场景比如
+   容器环境下某个POD的ID，当POD飘逸后，之前的POD ID对应的序列就消失了。但这些序列还会在内存中
+   存在，这对于近期的数据查询来说是无效的，但是会严重的影响查询性能，而且随着时间的积累，内存的
+   这种序列会越来越多，最终导致服务不可用。
+
+## TSI 的解决方案
+
+而在InfluxDB 1.3版本后，提供了另外一种方式的索引可供选择，新的索引方式会把索引存储在磁盘上，效率上相比内存索引差一点，但是解决了上述的问题。
+
+## TSI 存储布局
 
 ### TSI存储结构
-
 
 TSI (Time Series Index) 也是一个 基于LSM 的数据库，主要包括如下四块：
 
@@ -109,7 +117,7 @@ TSI的 是为了解决倒排索引问题，他需要回答的核心问题是：
 
 * 给定一个标签值能匹配到那些序列？
 
-这几个问题，索引通过物种类型的迭代器解决。
+这几个问题，索引通过6种类型的迭代器解决。
 
 ```
 MeasurementIterator(): Returns a sorted list of measurement names.
@@ -144,7 +152,6 @@ iterator.
 ### TSI 的文件结构
 
 
-
 #### 概览
 
 首先，提供一张概览视图，全局了解tsi 的文件结构。TSI 主要由四大文件构成：LogFile文件，Index文件，Mainfest文件，FileSet。下图展示了核心两大文件的结构图：
@@ -160,7 +167,6 @@ LogEntry 有一个Flag 标记当前的类型（增加/删除 ）, measurement名
 Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签块(Tag Block)，和指标块
 (Measurement Block)。
 
-这三个数据块，通过 HashIndex，来关联对应的序列。
 
 #### 各个文件结构详解
 
@@ -223,14 +229,9 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
 
 
 
+## 扩展阅读
 
 
-
-
-
-## 参考文献
-
-[Time Series Index (TSI) details](https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/)
 
 [InfluxDB详解之TSM存储引擎解析](https://yq.aliyun.com/articles/158312?spm=5176.100239.blogrightarea106382.21.PmSguT)
 
@@ -240,3 +241,9 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
 
 
 [RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap)
+
+[探索HyperLogLog算法](https://www.jianshu.com/p/55defda6dcd2)
+
+[tsi details](https://docs.influxdata.com/influxdb/v1.7/concepts/tsi-details/)
+
+[Time Series Index (TSI) details](https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/)
