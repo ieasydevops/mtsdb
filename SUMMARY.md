@@ -57,7 +57,7 @@ bui#  Summary
 * [6.1 JumpConsistentHash](docs/chapter6/一致性Hash算法JCH.md)
 * [6.2 索引](docs/chapter6/index.md)
 * [6.3 跳表的实现](docs/chapter6/skipList.md)
-* [6.5 跳表的实现](docs/chapter6/skipList.md)
+* [6.4 Level Compaction](docs/chapter6/LevelCompaction.md)
 
 ## 参考文献
 

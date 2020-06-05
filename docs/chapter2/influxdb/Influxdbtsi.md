@@ -1,4 +1,21 @@
-# 时间序列索引 [Time Series Index (TSI)]
+# 时间序列索引(Time Series Index)
+
+
+## 术语表
+
+| 术语  |  描述 |简称
+|:------|:-------|:-------|
+| Time Series Index| 时间序列索引|TSI |
+| Time-Structured Merge Tree| 时间结构合并树|TSM|
+| Log-Structured Merge Tree| 日志结构合并树|LSM|
+| Time Series| 时间序列 | TS |
+|Time Series Key|由measurement、tag key-value pair<br>和field Name 构成的唯一主键 | TSK |
+|Inverted Index| 倒排索引 | - |
+
+
+
+
+
 
 ## TSI 的背景
 
@@ -11,7 +28,7 @@ Influxdb 数据摄入后，不仅存储数据信息，也会基于 measurement,t
 ### TSI 概览
 
 [Influxdb 实际看上去，像两个数据库合并为一,一个时间序列数据存储(TSM)
-和一个对指标，标签，和元数据字段(filed)的倒排索引 (TSI ).](https://docs.influxdata.com/influxdb/v1.8/concepts/time-series-index/#issues-solved-by-tsi-and-remaining-to-be-solved)
+和一个对指标，标签，和元数据字段(field)的倒排索引 (TSI ).](https://docs.influxdata.com/influxdb/v1.8/concepts/time-series-index/#issues-solved-by-tsi-and-remaining-to-be-solved)
 
 ```
 InfluxDB actually looks like two databases in one, a time series 
@@ -22,7 +39,7 @@ field metadata.
 
 ### TSI 面临的挑战
 
-在InfluxDB 1.3之前，TSI 只支持Memory-based的方式，即所有的TimeSeries的索引都是放在内存内。
+在InfluxDB 1.3之前，TSI 只支持Memory-based的方式，即所有的TS的索引都是放在内存内。
 这意味着，对于每个序列 SeriesKey (由 measurement、tag key-value pair 和 failed Name 构
 成的唯一主键)，都会在内存中维护一个 SeriesKey 到序列的映射。 这种方式的好处就是查询效率高，但也
 存在不少问题，主要的问题如下：
@@ -97,8 +114,12 @@ IndexFile: Contains an immutable, memory-mapped index built from a LogFile or me
 
    一旦 LogFile 超过1M大小，就会产生一个新的日志文件，之前的日志文件开始合并到索引文件中。
 第一个索引文件是 Level1 (L1), 而之前的日志文件 可以认为是 Level 0 (L0).
-   索引文件也可以有两个小的索引文件合并而成。例如： 两个连续的 L1 级的索引文件 可以合并为一个
+   索引文件也可以有两个小的索引文件合并而成。例如:两个连续的 L1 级的索引文件 可以合并为一个
 L2 级的索引文件。
+
+这部分应该是借鉴了LevelDB、Cassandra的Compaction方法。类似的实现，如HBase 的[Stripe
+Compaction](https://issues.apache.org/jira/browse/HBASE-7667),更多Level Compaction
+的相关信息，请移步[6.4 Level Compaction](../../chapter6/LevelCompaction.md)
 
 
 
@@ -160,7 +181,7 @@ iterator.
 ![](./Influxdb-tsi-arch.png)
 
 新增的序列，首先写入 WAL(LogFile)。LogFile 的文件结构很简单，有一个个LogEntry构成。
-LogEntry 有一个Flag 标记当前的类型（增加/删除 ）, measurement名称，一系列的 k/v,
+LogEntry 有一个Flag 标记当前的类型（增加/删除 序列或标签 ）, measurement，一系列的 k/v,
 以及check sum构成。
 
 随着LogFile文件的不断变大(超过5M的时候),会被Compaction合并,并构建成索引文件 Index File.
@@ -232,12 +253,16 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
 
 ## 扩展阅读
 
+[tsi1 design](https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/DESIGN.md)
 
+[tsi doc](https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/doc.go)
+
+[RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap)
+
+[探索HyperLogLog算法](https://www.jianshu.com/p/55defda6dcd2)
+
+[tsi details](https://docs.influxdata.com/influxdb/v1.7/concepts/tsi-details/)
+
+[Time Series Index (TSI) details](https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/)
 
 [InfluxDB详解之TSM存储引擎解析](https://yq.aliyun.com/articles/158312?spm=5176.100239.blogrightarea106382.21.PmSguT)
-[tsi1 design](https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/DESIGN.md)
-[tsi doc](https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/doc.go)
-[RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap)
-[探索HyperLogLog算法](https://www.jianshu.com/p/55defda6dcd2)
-[tsi details](https://docs.influxdata.com/influxdb/v1.7/concepts/tsi-details/)
-[Time Series Index (TSI) details](https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/)
