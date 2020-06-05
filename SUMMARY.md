@@ -22,6 +22,11 @@ bui#  Summary
     * [2.3.1 Influxdb 概览](docs/chapter2/influxdb/InfluxdbOverView.md)
     * [2.3.2 Influxdb 存储引擎](docs/chapter2/influxdb/InfluxdbStoreEngine.md)
     * [2.3.2 Influxdb 索引](docs/chapter2/influxdb/Influxdbtsi.md)
+  * 2.4 时间序列数据库lindb分析
+    * [2.4.1 lindb 概览](docs/chapter2/lindb/LindbOverView.md)
+    * [2.4.2 lindb 数据模型](docs/chapter2/lindb/lindbDataModel.md)
+
+    
 ---
 
 
@@ -52,7 +57,7 @@ bui#  Summary
 * [6.1 JumpConsistentHash](docs/chapter6/一致性Hash算法JCH.md)
 * [6.2 索引](docs/chapter6/index.md)
 * [6.3 跳表的实现](docs/chapter6/skipList.md)
-
+* [6.5 跳表的实现](docs/chapter6/skipList.md)
 
 ## 参考文献
 
