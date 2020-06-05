@@ -6,7 +6,14 @@
 ## 目标
 
    Influxdb 的存储引擎发展历史很有趣，通过详细了解其发展历程对我们了解时间序列数据存储引擎的设计很有
-必要。本章就结合官网文档和自己的理解梳理下Influxdb的存储引擎相关内容，有错误或不对的地方，欢迎读者指出。
+必要。
+   Influxdb 的存储引擎设计原则：
+
+* 数据能安全的写入到磁盘
+* 数据查询结果齐全并且正确
+* 数据第一，性能第二
+
+
 
 ## 存储引擎的发展历史
 
@@ -37,6 +44,19 @@ B+树 和mmap实现，解决了问题3. 但是随着数据文件大小增长到�
 ### TSM 时代
  在Bolt之上构建第一个WAL实现的经验给Influxdb团队信心，来解决数据写的问题。由于WAL性能比较出色，问题在
  索引上，因此他们考虑 创建一个 类似 LSM 树的结构，来提高整体的写入负载。这个东西，就是TSM。
+
+
+
+## 存储引擎的实现
+
+### 存储引擎的核心概念
+
+* WAL（Write Ahead Log）
+* 缓存
+* Time-Structed MergeTree (TSM )
+* Time Series Index (TSI)
+
+
 
 
 
@@ -91,3 +111,7 @@ Influxdb 最初选择LevelDB 作为底层的存储引擎，这个和Prometheus�
 ## 参考文献
 
 [Cassandra SSTable Storage Format](http://distributeddatastore.blogspot.com/2013/08/cassandra-sstable-storage-format.html)
+
+[InfluxDB storage engine](https://v2.docs.influxdata.com/v2.0/reference/internals/storage-engine/#)
+
+[The InfluxDB Storage Engine and the Time-Structured Merge Tree (TSM)](https://docs.influxdata.com/influxdb/v1.3/concepts/storage_engine/)

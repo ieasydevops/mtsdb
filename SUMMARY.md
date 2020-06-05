@@ -21,7 +21,7 @@ bui#  Summary
   * 2.3 时间序列数据库Influxdb分析
     * [2.3.1 Influxdb 概览](docs/chapter2/influxdb/InfluxdbOverView.md)
     * [2.3.2 Influxdb 存储引擎](docs/chapter2/influxdb/InfluxdbStoreEngine.md)
-
+    * [2.3.2 Influxdb 索引](docs/chapter2/influxdb/Influxdbtsi.md)
 ---
 
 
