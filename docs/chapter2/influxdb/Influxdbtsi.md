@@ -14,8 +14,9 @@ Influxdb 数据摄入后，不仅存储数据信息，也会基于 measurement,t
 和一个对指标，标签，和元数据字段(filed)的倒排索引 (TSI ).](https://docs.influxdata.com/influxdb/v1.8/concepts/time-series-index/#issues-solved-by-tsi-and-remaining-to-be-solved)
 
 ```
-InfluxDB actually looks like two databases in one, a time series data store and an
-inverted index for the measurement, tag, and field metadata.
+InfluxDB actually looks like two databases in one, a time series 
+data store and an inverted index for the measurement, tag, and 
+field metadata.
 ```
 
 
@@ -234,16 +235,9 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
 
 
 [InfluxDB详解之TSM存储引擎解析](https://yq.aliyun.com/articles/158312?spm=5176.100239.blogrightarea106382.21.PmSguT)
-
 [tsi1 design](https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/DESIGN.md)
-
 [tsi doc](https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/doc.go)
-
-
 [RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap)
-
 [探索HyperLogLog算法](https://www.jianshu.com/p/55defda6dcd2)
-
 [tsi details](https://docs.influxdata.com/influxdb/v1.7/concepts/tsi-details/)
-
 [Time Series Index (TSI) details](https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/)
