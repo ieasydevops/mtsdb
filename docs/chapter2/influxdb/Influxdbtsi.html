@@ -449,8 +449,9 @@
 <h3 id="tsi-&#x6982;&#x89C8;">TSI &#x6982;&#x89C8;</h3>
 <p><a href="https://docs.influxdata.com/influxdb/v1.8/concepts/time-series-index/#issues-solved-by-tsi-and-remaining-to-be-solved" target="_blank">Influxdb &#x5B9E;&#x9645;&#x770B;&#x4E0A;&#x53BB;&#xFF0C;&#x50CF;&#x4E24;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x5408;&#x5E76;&#x4E3A;&#x4E00;,&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x6570;&#x636E;&#x5B58;&#x50A8;(TSM)
 &#x548C;&#x4E00;&#x4E2A;&#x5BF9;&#x6307;&#x6807;&#xFF0C;&#x6807;&#x7B7E;&#xFF0C;&#x548C;&#x5143;&#x6570;&#x636E;&#x5B57;&#x6BB5;(filed)&#x7684;&#x5012;&#x6392;&#x7D22;&#x5F15; (TSI ).</a></p>
-<pre><code>InfluxDB actually looks like two databases in one, a time series data store and an
-inverted index for the measurement, tag, and field metadata.
+<pre><code>InfluxDB actually looks like two databases in one, a time series 
+data store and an inverted index for the measurement, tag, and 
+field metadata.
 </code></pre><h3 id="tsi-&#x9762;&#x4E34;&#x7684;&#x6311;&#x6218;">TSI &#x9762;&#x4E34;&#x7684;&#x6311;&#x6218;</h3>
 <p>&#x5728;InfluxDB 1.3&#x4E4B;&#x524D;&#xFF0C;TSI &#x53EA;&#x652F;&#x6301;Memory-based&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5373;&#x6240;&#x6709;&#x7684;TimeSeries&#x7684;&#x7D22;&#x5F15;&#x90FD;&#x662F;&#x653E;&#x5728;&#x5185;&#x5B58;&#x5185;&#x3002;
 &#x8FD9;&#x610F;&#x5473;&#x7740;&#xFF0C;&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A;&#x5E8F;&#x5217; SeriesKey (&#x7531; measurement&#x3001;tag key-value pair &#x548C; failed Name &#x6784;
@@ -599,13 +600,13 @@ LogEntry &#x6709;&#x4E00;&#x4E2A;Flag &#x6807;&#x8BB0;&#x5F53;&#x524D;&#x7684;&#
  &#x8BA1;&#x6570;&#x5668;&#x589E;&#x52A0;&#xFF0C;&#x5F53;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x5B8C; fileSet&#x65F6;&#xFF0C;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5668;&#x51CF;&#x5C11;&#x3002;&#x8BA1;&#x6570;&#x5668;&#x4E0D;&#x4E3A;0&#x7684;&#x6587;&#x4EF6;
  &#x662F;&#x4E0D;&#x80FD;&#x88AB;&#x5220;&#x9664;&#x7684;&#x3002;&#x9664;&#x4E86;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5668;&#xFF0C;&#x7D22;&#x5F15;&#x6587;&#x4EF6;&#x6CA1;&#x6709;&#x5176;&#x5B83;&#x7684;&#x9501;&#x673A;&#x5236;&#x3002;</p>
 <h2 id="&#x6269;&#x5C55;&#x9605;&#x8BFB;">&#x6269;&#x5C55;&#x9605;&#x8BFB;</h2>
-<p><a href="https://yq.aliyun.com/articles/158312?spm=5176.100239.blogrightarea106382.21.PmSguT" target="_blank">InfluxDB&#x8BE6;&#x89E3;&#x4E4B;TSM&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x89E3;&#x6790;</a></p>
-<p><a href="https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/DESIGN.md" target="_blank">tsi1 design</a></p>
-<p><a href="https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/doc.go" target="_blank">tsi doc</a></p>
-<p><a href="https://github.com/RoaringBitmap/RoaringBitmap" target="_blank">RoaringBitmap</a></p>
-<p><a href="https://www.jianshu.com/p/55defda6dcd2" target="_blank">&#x63A2;&#x7D22;HyperLogLog&#x7B97;&#x6CD5;</a></p>
-<p><a href="https://docs.influxdata.com/influxdb/v1.7/concepts/tsi-details/" target="_blank">tsi details</a></p>
-<p><a href="https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/" target="_blank">Time Series Index (TSI) details</a></p>
+<p><a href="https://yq.aliyun.com/articles/158312?spm=5176.100239.blogrightarea106382.21.PmSguT" target="_blank">InfluxDB&#x8BE6;&#x89E3;&#x4E4B;TSM&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x89E3;&#x6790;</a>
+<a href="https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/DESIGN.md" target="_blank">tsi1 design</a>
+<a href="https://github.com/influxdata/influxdb/blob/master/tsdb/tsi1/doc.go" target="_blank">tsi doc</a>
+<a href="https://github.com/RoaringBitmap/RoaringBitmap" target="_blank">RoaringBitmap</a>
+<a href="https://www.jianshu.com/p/55defda6dcd2" target="_blank">&#x63A2;&#x7D22;HyperLogLog&#x7B97;&#x6CD5;</a>
+<a href="https://docs.influxdata.com/influxdb/v1.7/concepts/tsi-details/" target="_blank">tsi details</a>
+<a href="https://docs.influxdata.com/influxdb/v1.8/concepts/tsi-details/" target="_blank">Time Series Index (TSI) details</a></p>
 
                                 
                                 </section>
@@ -645,7 +646,7 @@ LogEntry &#x6709;&#x4E00;&#x4E2A;Flag &#x6807;&#x8BB0;&#x5F53;&#x524D;&#x7684;&#
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2.3.2 Influxdb 索引","level":"3.1.3.3","depth":3,"next":{"title":"2.4 时间序列数据库lindb分析","level":"3.1.4","depth":2,"ref":"","articles":[{"title":"2.4.1 lindb 概览","level":"3.1.4.1","depth":3,"path":"docs/chapter2/lindb/LindbOverView.md","ref":"docs/chapter2/lindb/LindbOverView.md","articles":[]},{"title":"2.4.2 lindb 数据模型","level":"3.1.4.2","depth":3,"path":"docs/chapter2/lindb/lindbDataModel.md","ref":"docs/chapter2/lindb/lindbDataModel.md","articles":[]}]},"previous":{"title":"2.3.2 Influxdb 存储引擎","level":"3.1.3.2","depth":3,"path":"docs/chapter2/influxdb/InfluxdbStoreEngine.md","ref":"docs/chapter2/influxdb/InfluxdbStoreEngine.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/influxdb/Influxdbtsi.md","mtime":"2020-06-05T09:52:46.523Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-05T09:52:58.295Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2.3.2 Influxdb 索引","level":"3.1.3.3","depth":3,"next":{"title":"2.4 时间序列数据库lindb分析","level":"3.1.4","depth":2,"ref":"","articles":[{"title":"2.4.1 lindb 概览","level":"3.1.4.1","depth":3,"path":"docs/chapter2/lindb/LindbOverView.md","ref":"docs/chapter2/lindb/LindbOverView.md","articles":[]},{"title":"2.4.2 lindb 数据模型","level":"3.1.4.2","depth":3,"path":"docs/chapter2/lindb/lindbDataModel.md","ref":"docs/chapter2/lindb/lindbDataModel.md","articles":[]}]},"previous":{"title":"2.3.2 Influxdb 存储引擎","level":"3.1.3.2","depth":3,"path":"docs/chapter2/influxdb/InfluxdbStoreEngine.md","ref":"docs/chapter2/influxdb/InfluxdbStoreEngine.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/influxdb/Influxdbtsi.md","mtime":"2020-06-05T09:56:58.133Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-05T09:57:43.925Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
