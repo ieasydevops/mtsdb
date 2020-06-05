@@ -31,9 +31,8 @@ Influxdb 数据摄入后，不仅存储数据信息，也会基于 measurement,t
 和一个对指标，标签，和元数据字段(field)的倒排索引 (TSI ).](https://docs.influxdata.com/influxdb/v1.8/concepts/time-series-index/#issues-solved-by-tsi-and-remaining-to-be-solved)
 
 ```
-InfluxDB actually looks like two databases in one, a time series 
-data store and an inverted index for the measurement, tag, and 
-field metadata.
+InfluxDB actually looks like two databases in one, a time series data store and an
+inverted index for the measurement, tag, and field metadata.
 ```
 
 
@@ -63,55 +62,41 @@ field metadata.
 
 ## TSI 的解决方案
 
-而在InfluxDB 1.3版本后，提供了另外一种方式的索引可供选择，新的索引方式会把索引存储在磁盘上，效率上相比内存索引差一点，但是解决了上述的问题。
+而在InfluxDB 1.3版本后，提供了另外一种方式的索引可供选择，新的索引方式会把索引存储在磁盘上，效
+率上相比内存索引差一点，但是解决了上述的问题。
 
 ## TSI 存储布局
 
 ### TSI存储结构
 
-TSI (Time Series Index) 也是一个 基于LSM 的数据库，主要包括如下四块：
-
-索引： 包含一个数据分片的索引的数据集
-
+TSI (Time Series Index) 也是一个 基于LSM 的数据库，主要包括如下四块:<br>
+索引： 包含一个数据分片的索引的数据集。<br>
 分区： 包含一个数据分片的 数据分区。- Influxdb的数据，首先会从时间范围做Shard，每个
-时间范围内的Shard，会在基于SeriesKey做 Shard Partition。
-
-日志文件： 包含 内存索引中最新写入的序列，类似WAL。
-
+时间范围内的Shard，会在基于SeriesKey做 Shard Partition.<br>
+日志文件： 包含 内存索引中最新写入的序列，类似WAL.<br>
 索引文件： 有日志文件（WLA）构建而成的包含一个不可变的，内存映射索引的索引，或是有两个
-连续的索引文件合并而成的一个大索引文件。
-
+连续的索引文件合并而成的一个大索引文件<br>
 ```
 Index: Contains the entire index dataset for a single shard.
-
 Partition: Contains a sharded partition of the data for a shard.
-
 LogFile: Contains newly written series as an in-memory index and is persisted as a WAL.
-
 IndexFile: Contains an immutable, memory-mapped index built from a LogFile or merged
- from two contiguous index files.
-
+from two contiguous index files.
 ```
 
 ### TSI构建
 
 #### 写入逻辑
 
-以序列写入流程，分析TSI的构建过程。
-
+以序列写入流程，分析TSI的构建过程。<br>
 1. 新的序列写入到达后，先加入序列文件，或者查找该序列是否存在，如果不存在，在生成一个自增的ID。
-   这个自增的ID 和 Measurement，Tag Key-Vaule Pair,Filed 是一一映射的
-
-2. 新写入的序列被发送给索引。索引维护了一个 由序列ID构成的 有序的 高效压缩位图[RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap) , 并会忽略掉已经存在的序列ID。
-
-3. 对序列做Hash，然后发给合适的分区
-
-4. 对应的分区将该序列写入 日志文件
-
-5. 该日志文件，将该序列写入到 磁盘上的WAL，并将其加入到内存索引集合中。
+   这个自增的ID 和 Measurement，Tag Key-Vaule Pair,Filed 是一一映射的<br>
+2. 新写入的序列被发送给索引。索引维护了一个 由序列ID构成的 有序的 高效压缩位图[RoaringBitmap](https://github.com/RoaringBitmap/RoaringBitmap) , 并会忽略掉已经存在的序列ID。<br>
+3. 对序列做Hash，然后发给合适的分区。<br>
+4. 对应的分区将该序列写入 日志文件。<br>
+5. 该日志文件，将该序列写入到 磁盘上的WAL，并将其加入到内存索引集合中。<br>
 
 #### 合并逻辑
-
    一旦 LogFile 超过1M大小，就会产生一个新的日志文件，之前的日志文件开始合并到索引文件中。
 第一个索引文件是 Level1 (L1), 而之前的日志文件 可以认为是 Level 0 (L0).
    索引文件也可以有两个小的索引文件合并而成。例如:两个连续的 L1 级的索引文件 可以合并为一个
@@ -123,56 +108,36 @@ Compaction](https://issues.apache.org/jira/browse/HBASE-7667),更多Level Compac
 
 
 
-### TSI 提供的能力
+### TSI 实现的功能
 
 TSI的 是为了解决倒排索引问题，他需要回答的核心问题是：
 
-* 当前有哪些指标（measurement）?
-
-* 有哪些标签？
-
-* 给定的标签有哪些Value值？
-
-* 一个指标包含那些序列ID？ 
-
-* 给定一个标签，或一些标签，甚至一个模糊匹配的标签，能匹配到那些序列？
-
-* 给定一个标签值能匹配到那些序列？
-
+* 当前有哪些指标?<br>
+* 有哪些标签？<br>
+* 给定的标签有哪些Value值？<br>
+* 一个指标包含那些序列ID？ <br>
+* 给定一个标签，或一些标签，甚至一个模糊匹配的标签，能匹配到那些序列？<br>
+* 给定一个标签值能匹配到那些序列？<br>
 这几个问题，索引通过6种类型的迭代器解决。
-
 ```
 MeasurementIterator(): Returns a sorted list of measurement names.
-
 TagKeyIterator(): Returns a sorted list of tag keys in a measurement.
-
 TagValueIterator(): Returns a sorted list of tag values for a tag key.
-
-MeasurementSeriesIDIterator(): Returns a sorted list of all series IDs for a measurement.
-
+MeasurementSeriesIDIterator(): Returns a sorted list of all series IDs for a
+measurement.
 TagKeySeriesIDIterator(): Returns a sorted list of all series IDs for a tag key.
-
 TagValueSeriesIDIterator(): Returns a sorted list of all series IDs for a tag value.
-
 ```
-以上的迭代器，是可以相互组合的。而且每种类型(measurement,
-tag key, tag value,series id等)的迭代器，实现了交集，并集，差集的能力。
-
-
+以上的迭代器，是可以相互组合的。而且每种类型(measurement,tag key, tag value,series id等)
+的迭代器，实现了交集，并集，差集的能力。
 ```
 Merge: Deduplicates items from two iterators.
-
 Intersect: Returns only items that exist in two iterators.
-
 Difference: Only returns items from first iterator that don’t exist in the second 
 iterator.
-
 ```
 
-
-
 ### TSI 的文件结构
-
 
 #### 概览
 
@@ -192,7 +157,7 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
 
 #### 各个文件结构详解
 
- #### LogFile
+#### LogFile
 
  LogFile 是由 按序写入磁盘的一系列 LogEntry构成。
  LogFile 大小超过5MB 就会被合并为 Index 文件。
@@ -203,18 +168,15 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
  * 删除的标签键（TagKey）
  * 删除的标签值 (TagValue)
 
-日志文件也维护了一个 与现存的序列ID 和 tombstones 相关的 bisets.
-在服务启动的时候，可基于这些 bitsets 和 其他的日志文件 ，索引文件重新生成
-全量的 index bitsets.
+日志文件也维护了一个 与现存的序列ID 和 tombstones 相关的 bisets.在服务启动的时候，可基于这些 bitsets 和 其他的日志文件 ，索引文件重新生成全量的 index bitsets.
 
-
- #### 索引文件
+#### IndexFile
 
  Index File 有三个主要的类型的块文件构成：
  序列块，一个和多个标签块，一个指标块。每个数据块的末尾，都包含一个 trailer.
  trailer 描述了 这些块的一些元信息，比如偏移量。
 
- #### Manifest file
+#### Manifest file
  
  索引是有 WAL 和 Index文件 构成的一个有序集合。这些文件 在做合并和重写操作的时，
  需要保持有序。保持有序是为了对 序列，指标，或标签 的标记删除有利。
@@ -224,30 +186,23 @@ Index File 有三中类型的数据块构成。序列块(SeriesBlock)，标签�
 
 
 
- #### 索引文件的合并（compacting index file）
+##### 索引文件的合并（compacting index file）
 
-  TSI的合并有两个主要步骤：
+TSI的合并有两个主要步骤：
 
 首先： 一旦日志文件大小超过阈值，他们就会被合并为一个索引文件。 日志文件的阈值会设置
-的相对较小，主要处于如下两个原因的考虑：
-  
+的相对较小，主要处于如下两个原因的考虑:<br>
     TSI 为了避免在内存堆中维护日志文件的索引
-
     小的日志文件也很容易转化为Index文件。
+其次： 一旦一个连续的索引文件集超过了负载因子（通常为10倍），这些索引文件会被合并为一个大的索引
+文件，老的索引文件会被丢弃。由于，所有的块都是有序的，新的索引文件可以流式传输，减小内存使用。
 
-其次： 一旦一个连续的索引文件集超过了负载因子（通常为10倍），
-这些索引文件会被合并为一个大的索引文件，老的索引文件会被丢弃。
-由于，所有的块都是有序的，新的索引文件可以流式传输，减小内存使用
-
-
- #### FileSet 解决并发问题
+#### FileSet 解决并发问题
  
- 索引文件，虽然是不可修改的，但在做合并的时候，我们需要知道那些文件在被使用。
- 为了解决这个问题，引入了引用计数。
-
- 一个FileSet 是由一系列有序的索引文件集构成。当文件集被索引获取时，
- 计数器增加，当用户使用完 fileSet时，引用计数器减少。计数器不为0的文件
- 是不能被删除的。除了引用计数器，索引文件没有其它的锁机制。
+索引文件，虽然是不可修改的，但在做合并的时候，我们需要知道那些文件在被使用。为了解决这个问题，引入了
+引用计数。一个FileSet 是由一系列有序的索引文件集构成。当文件集被索引获取时，计数器增加，当用户使用
+完 fileSet时，引用计数器减少。计数器不为0的文件是不能被删除的。除了引用计数器，索引文件没有其它的锁
+机制。
 
 
 
