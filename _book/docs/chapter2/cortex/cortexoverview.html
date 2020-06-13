@@ -1,0 +1,760 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2.6.1 Cortex 架构 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../chapter6/一致性Hash算法JCH.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第一部分 需求分析，业务建模</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    第一章 时间序列数据的定义和业务建模
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../../chapter1/时间序列数据的定义.html">
+            
+                <a href="../../chapter1/时间序列数据的定义.html">
+            
+                    
+                    1.1 数据序列数据的定义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../../chapter1/时间序列数据的特性.html">
+            
+                <a href="../../chapter1/时间序列数据的特性.html">
+            
+                    
+                    1.2 时间序列数据的特性
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第二部分 现状分析，技术调研</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    第二章 时序数据库的比较分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../时序数据库一般分析方法.html">
+            
+                <a href="../时序数据库一般分析方法.html">
+            
+                    
+                    2.1 时间序列数据库分析概览说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../victoriametrics/VictoriaMetrics.html">
+            
+                <a href="../victoriametrics/VictoriaMetrics.html">
+            
+                    
+                    2.2 时间序列数据库VictoriaMetrics分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" >
+            
+                <span>
+            
+                    
+                    2.3 时间序列数据库Influxdb分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.1" data-path="../influxdb/InfluxdbOverView.html">
+            
+                <a href="../influxdb/InfluxdbOverView.html">
+            
+                    
+                    2.3.1 Influxdb 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.2" data-path="../influxdb/InfluxdbStoreEngine.html">
+            
+                <a href="../influxdb/InfluxdbStoreEngine.html">
+            
+                    
+                    2.3.2 Influxdb 存储引擎
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.3" data-path="../influxdb/Influxdbtsi.html">
+            
+                <a href="../influxdb/Influxdbtsi.html">
+            
+                    
+                    2.3.2 Influxdb 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" >
+            
+                <span>
+            
+                    
+                    2.4 时间序列数据库lindb分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.1" data-path="../lindb/LindbOverView.html">
+            
+                <a href="../lindb/LindbOverView.html">
+            
+                    
+                    2.4.1 lindb 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2" data-path="../lindb/lindbDataModel.html">
+            
+                <a href="../lindb/lindbDataModel.html">
+            
+                    
+                    2.4.2 lindb 数据模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" >
+            
+                <span>
+            
+                    
+                    2.5 时间序列数据库Druid分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.5.1" data-path="../druid/DruidIndex.html">
+            
+                <a href="../druid/DruidIndex.html">
+            
+                    
+                    2.5.1 Druid 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" >
+            
+                <span>
+            
+                    
+                    2.6 Cortex 分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.1.6.1" data-path="cortexoverview.html">
+            
+                <a href="cortexoverview.html">
+            
+                    
+                    2.6.1 Cortex 架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第三部分 模型推演，规范设计</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第四部分 代码实现，实践验证</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第五部分 未来展望</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第六部分 附录</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../chapter6/一致性Hash算法JCH.html">
+            
+                <a href="../../chapter6/一致性Hash算法JCH.html">
+            
+                    
+                    6.1 JumpConsistentHash
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="../../chapter6/">
+            
+                <a href="../../chapter6/">
+            
+                    
+                    6.2 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="../../chapter6/skipList.html">
+            
+                <a href="../../chapter6/skipList.html">
+            
+                    
+                    6.3 跳表的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="../../chapter6/LevelCompaction.html">
+            
+                <a href="../../chapter6/LevelCompaction.html">
+            
+                    
+                    6.4 Level Compaction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="../../chapter6/db.html">
+            
+                <a href="../../chapter6/db.html">
+            
+                    
+                    6.10 DB
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">参考文献</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >2.6.1 Cortex 架构</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="cortex-&#x7B80;&#x4ECB;"><a href="https://github.com/cortexproject/cortex" target="_blank">Cortex &#x7B80;&#x4ECB;</a></h2>
+<p>Cortex &#x662F;weaveworks&#x516C;&#x53F8;&#x63A8;&#x51FA;&#x7684;&#x4E00;&#x6B3E;&#x9488;prometheus&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7684;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x5B58;&#x50A8;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;</p>
+<p>Cortex &#x89E3;&#x51B3;&#x7684;&#x4E3B;&#x8981;&#x95EE;&#x9898;&#x5982;&#x4E0B;:</p>
+<ol>
+<li>&#x6C34;&#x5E73;&#x6269;&#x5BB9;</li>
+<li>&#x9AD8;&#x53EF;&#x7528;</li>
+<li>&#x591A;&#x79DF;&#x6237;</li>
+<li>&#x957F;&#x671F;&#x6301;&#x4E45;&#x5316;&#x5B58;&#x50A8;</li>
+</ol>
+<p><strong>A horizontally scalable, highly available, multi-tenant, long term Prometheus</strong></p>
+<h2 id="cortex-&#x67B6;&#x6784;">Cortex &#x67B6;&#x6784;</h2>
+<h3 id="cortex-&#x67B6;&#x6784;">Cortex &#x67B6;&#x6784;</h3>
+<p><img src="images/cortexarchitecture.png" alt="cortexarchitecture"></p>
+<h3 id="&#x67B6;&#x6784;&#x89E3;&#x6790;">&#x67B6;&#x6784;&#x89E3;&#x6790;</h3>
+<p>&#x6570;&#x636E;&#x5199;&#x5165;&#x8DEF;&#x5F84;:<br>
+   Prometheus-&gt; Gateway -&gt; Distributor -&gt; Ingester -&gt; DSF/BigTable/S3/Gcs/Chunks/Memcache</p>
+<h3 id="&#x91C7;&#x96C6;&#x7EC4;&#x4EF6;">&#x91C7;&#x96C6;&#x7EC4;&#x4EF6;</h3>
+<p>Prometheus&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x91C7;&#x96C6;&#x7EC4;&#x4EF6;&#xFF0C;&#x517C;&#x5BB9;Prometheus&#x7684;&#x91C7;&#x96C6;&#x751F;&#x6001;&#x3002;&#x901A;&#x8FC7;&#x53CD;&#x9879;&#x4EE3;&#x7406;&#x505A;&#x6570;&#x636E;&#x63A5;&#x5165;&#x5C42;&#x7F51;&#x5173;&#x3002;
+&#x901A;&#x8FC7;Prometheus &#x7684;  remote write API &#x5B9E;&#x73B0;&#x6570;&#x636E;&#x6444;&#x5165;&#xFF0C;&#x5E76;&#x4E14;&#x5728; HTTP &#x8BF7;&#x6C42;&#x5934;&#x4E2D;&#xFF0C;&#x589E;&#x52A0; bear toke &#x4F5C;&#x4E3A;&#x79DF;&#x6237;ID&#xFF0C;&#x5B9E;&#x73B0;&#x591A;&#x79DF;&#x6237;&#x529F;&#x80FD;&#x3002;</p>
+<h3 id="&#x6570;&#x636E;&#x5206;&#x53D1;&#x7EC4;&#x4EF6;">&#x6570;&#x636E;&#x5206;&#x53D1;&#x7EC4;&#x4EF6;</h3>
+<p>&#x5199;&#x5165;&#x7684;&#x6570;&#x636E;&#x6837;&#x672C;&#x901A;&#x8FC7;distributor&#x7EC4;&#x4EF6;&#xFF0C;&#x5B9E;&#x73B0;&#x5206;&#x53D1;&#x3002;</p>
+<h3 id="&#x67E5;&#x8BE2;&#x7EC4;&#x4EF6;">&#x67E5;&#x8BE2;&#x7EC4;&#x4EF6;</h3>
+<p>&#x589E;&#x52A0;&#x4E86;&#x7EDF;&#x4E00;&#x6570;&#x636E;&#x67E5;&#x8BE2;&#x7EC4;&#x4EF6; Querier,&#x548C;&#x67E5;&#x8BE2;&#x4F18;&#x5316;&#x7EC4;&#x4EF6;Query Frontend&#xFF0C;&#x5904;&#x7406;&#x7528;&#x6237;&#x8BF7;&#x6C42;&#x3002;</p>
+<h3 id="&#x5B58;&#x50A8;&#x7EC4;&#x4EF6;">&#x5B58;&#x50A8;&#x7EC4;&#x4EF6;</h3>
+<p>&#x5F53;&#x524D;&#x652F;&#x6301;&#x4E24;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x5B58;:</p>
+<ul>
+<li>Chunks (default,stable)</li>
+<li>Blocks (experimental)</li>
+</ul>
+<h4 id="chunks-storage">Chunks Storage</h4>
+<p>chunks storage &#x5C06;&#x6BCF;&#x4E2A;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x5B58;&#x50A8;&#x5355;&#x72EC;&#x5B58;&#x50A8;&#x5230;&#x4E00;&#x4E2A;&#x53EB; chunk &#x7684;&#x5BF9;&#x8C61;&#x4E2D;&#x3002;
+chunk &#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x6BB5;(&#x9ED8;&#x8BA4;12&#x5C0F;&#x65F6;)&#x7684;&#x5E8F;&#x5217;&#x3002;
+Chunks &#x53EF;&#x4EE5;&#x88AB;&#x65F6;&#x95F4;&#x548C;&#x6807;&#x7B7E;&#x7D22;&#x5F15;&#xFF0C;&#x4ECE;&#x800C;&#x63D0;&#x9AD8;&#x5FEB;&#x901F;&#x67E5;&#x8BE2;&#x80FD;&#x529B;&#x3002;</p>
+<p>&#x901A;&#x8FC7;&#x628A; Chunk &#x6570;&#x636E; &#x548C;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x5206;&#x79BB;&#xFF0C;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x9488;&#x5BF9;&#x8FD9;&#x4E24;&#x8005;&#x7684;&#x5F88;&#x591A;&#x66FF;&#x4EE3;&#x7684;&#x5E95;&#x5C42;&#x5B58;&#x50A8;&#x5B9E;&#x73B0;&#x3002;</p>
+<ul>
+<li>Chunks &#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x53EF;&#x6709;&#x5982;&#x4E0B;&#x6570;&#x636E;&#x5E93;&#x5B58;&#x50A8;:<ul>
+<li>Amazon DynamoDB</li>
+<li>Google Bigtable</li>
+<li>Apache Cassandra</li>
+</ul>
+</li>
+<li>Chunk &#x6570;&#x636E;&#x672C;&#x8EAB;&#xFF0C;&#x53EF;&#x7531;&#x5982;&#x4E0B;&#x6570;&#x636E;&#x5E93;&#x5B58;:<ul>
+<li>Amazon DynamoDB</li>
+<li>Google Bigtable</li>
+<li>Apache Cassandra</li>
+<li>Amazon S3</li>
+<li>Google Cloud Storage</li>
+<li>Microsoft Azure Storage</li>
+</ul>
+</li>
+</ul>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x4E3A;&#x4E86;&#x517C;&#x5BB9;&#x4E0D;&#x901A;&#x7684;&#x540E;&#x6BB5;&#x5B58;&#x50A8;&#x5E93;&#xFF0C;&#x9700;&#x8981;&#x62BD;&#x8C61;&#x4E00;&#x4E2A;&#x7EDF;&#x4E00;&#x7684;&#x63A5;&#x53E3;&#x3002;cortex &#x5C06;&#x6B64;
+&#x63A5;&#x53E3;&#xFF0C;&#x6210;&#x4E3A; &#x201C;chunks store&#x201D;&#x3002; &#x7531;&#x4E8E; &quot;chunks store &quot; &#x53EA;&#x662F;&#x4E00;&#x79CD;&#x5B58;&#x50A8;chunk
+&#x7684;&#x4E00;&#x79CD;&#x6570;&#x636E;&#x5951;&#x7EA6;&#xFF0C;&#x53EF;&#x4EE5;&#x6709;&#x5F88;&#x591A;&#x79CD;&#x5B9E;&#x73B0;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x8FD9;&#x91CC;&#x5E76;&#x6CA1;&#x6709;&#x628A;&#x5176;&#x505A;&#x6210;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#xFF0C;&#x800C;&#x662F;&#x63D0;
+&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x5D4C;&#x5165;&#x7684;lib &#x5E93;&#x3002; &#x6B64;Lib&#x5E93;&#xFF0C;&#x53EF;&#x4EE5;&#x88AB; ingester,querier &#x548C; ruler&#x5F15;&#x7528;&#x3002;</p>
+<h4 id="blocks-storage">Blocks storage</h4>
+<pre><code> note: chunk vs block
+ &#x8FD9;&#x91CC;&#x7684; block &#x6709;&#x591A;&#x4E2A; chunk &#x6784;&#x6210;
+</code></pre><p>&#x5757;&#x5B58;&#x50A8;&#xFF0C;&#x57FA;&#x4E8E;Prometheus&#x7684; TSDB: &#x5C06;&#x6BCF;&#x4E2A;&#x79DF;&#x6237;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x5B58;&#x50A8;&#x5230;&#x4ED6;&#x4EEC;&#x81EA;&#x5DF1;&#x7684;&#x78C1;&#x76D8;&#x5757;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;
+&#x8FD9;&#x4E9B;&#x78C1;&#x76D8;&#x5757;&#x9ED8;&#x8BA4;&#x662F;2&#x5C0F;&#x65F6;&#x4E00;&#x4E2A;&#x5468;&#x671F;&#x3002;&#x6BCF;&#x4E2A;&#x5757;&#x662F;&#x7531; chunks &#x548C; block index &#x5757;&#x7D22;&#x5F15;&#x6587;&#x4EF6;&#x538B;&#x7F29;&#x800C;&#x6210;&#x3002;</p>
+<p>TSDB &#x7684; chunk &#x6587;&#x4EF6;&#x5305;&#x542B;&#x4E86;&#x591A;&#x4E2A;&#x5E8F;&#x5217;&#x7684;&#x91C7;&#x6837;&#x6570;&#x636E;&#x3002;chunk &#x5185;&#x7684;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x662F;&#x88AB;block&#x7684;&#x7D22;&#x5F15;&#x6240;&#x7D22;&#x5F15;&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x7D22;&#x5F15;&#x662F;&#x5BF9;chunk &#x6587;&#x4EF6;&#x4E2D;&#x5E8F;&#x5217;&#x7684;&#x6307;&#x6807;&#x540D;&#x79F0;&#x548C;&#x6807;&#x7B7E;&#x505A;&#x7684;&#x7D22;&#x5F15;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;blocks storage&#x4E0D;&#x9700;&#x8981;&#x4E3A;&#x7D22;&#x5F15;&#x63D0;&#x4F9B;&#x4E13;&#x6709;&#x7684;&#x540E;&#x6BB5;&#x5B58;&#x50A8;&#x3002;&#x4EC5;&#x4EC5;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x5B58;&#x50A8;&#x6765;&#x5B58;
+block file:</p>
+<ul>
+<li>Amazon S3</li>
+<li>Google Cloud Storage</li>
+<li>Microsoft Azure Storage</li>
+<li>Local Filesystem (single node only)</li>
+<li>OpenStack Swift (experimental)</li>
+</ul>
+<p>&#x66F4;&#x591A;&#x7684;&#x540E;&#x7AEF;<a href="https://cortexmetrics.io/docs/operations/blocks-storage/" target="_blank">&#x5757;&#x5B58;&#x50A8; block-storage </a>&#xFF0C;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x6587;&#x6863;&#x3002;</p>
+<h2 id="cortex-&#x670D;&#x52A1;&#x7EC4;&#x4EF6;">Cortex &#x670D;&#x52A1;&#x7EC4;&#x4EF6;</h2>
+<p>Cortex &#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x670D;&#x52A1;&#x7684;&#x67B6;&#x6784;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x4F53;&#x7CFB;&#x67B6;&#x6784;&#x4E2D;&#xFF0C;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x88AB;&#x5206;&#x6210;&#x6267;&#x884C;&#x7279;&#x5B9A;&#x4EFB;&#x52A1;&#x7684;&#x5404;&#x79CD;&#x7EC4;&#x4EF6;&#x3002;&#x8FD9;&#x4E9B;&#x7EC4;&#x4EF6;&#x80FD;&#x591F;&#x72EC;&#x7ACB;&#x7684;&#x5E76;&#x884C;&#x8FD0;&#x884C;&#x3002;Cortex &#x4E5F;&#x53EF;&#x4EE5;&#x5355;&#x8FDB;&#x7A0B;&#x6A21;&#x578B;&#x7684;&#x65B9;&#x5F0F;&#x8FD0;&#x884C;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x7EC4;&#x4EF6;&#x5728;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x4E2D;&#x6267;&#x884C;&#x3002;&#x5355;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;&#x5BF9;&#x4E8E;&#x672C;&#x5730;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x7279;&#x522B;&#x65B9;&#x4FBF;&#x3002;</p>
+<p>&#x5728;&#x5F88;&#x5927;&#x7A0B;&#x5EA6;&#x4E0A;&#xFF0C;Cortex &#x4E5F;&#x662F;&#x4E00;&#x4E2A; shared-nothing &#x67B6;&#x6784;&#x7684;&#x7CFB;&#x7EDF;&#x3002;&#x7CFB;&#x7EDF;&#x7684;&#x6BCF;&#x4E2A;&#x5C42;&#x90FD;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x6BCF;&#x4E2A;&#x7EC4;&#x4EF6;&#x7684;&#x591A;&#x4E2A;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x4E14;&#x5404;&#x4E2A;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x4E0D;&#x9700;&#x8981;&#x534F;&#x8C03;&#x548C;&#x76F8;&#x4E92;&#x901A;&#x4FE1;&#x3002;</p>
+<h3 id="&#x670D;&#x52A1;&#x7EC4;&#x4EF6;&#x5982;&#x4E0B;">&#x670D;&#x52A1;&#x7EC4;&#x4EF6;&#x5982;&#x4E0B;:</h3>
+<ul>
+<li>Distributor</li>
+<li>Ingester</li>
+<li>Querier</li>
+<li>Query frontend (optional)</li>
+<li>Ruler (optional)</li>
+<li>Alertmanager (optional)</li>
+<li>Configs API (optional)</li>
+<li>Distributor</li>
+</ul>
+<h3 id="distributor">Distributor</h3>
+<p>&#x63A5;&#x53D7;&#x6765;&#x81EA;Prometheus RemoteWrite &#x8FC7;&#x6765;&#x7684;&#x6570;&#x636E;&#x3002;&#x505A;&#x9A8C;&#x8BC1;&#xFF0C;&#x6709;&#x6548;&#x7684;&#x6570;&#x636E;&#x4F1A;&#x5206;&#x6210;
+batches &#x53D1;&#x9001;&#x7ED9; &#x6570;&#x636E;&#x6444;&#x5165;&#x7EC4;&#x4EF6; ingesters. &#x6570;&#x636E;&#x6821;&#x9A8C;&#x5173;&#x952E;&#x70B9;&#xFF1A;</p>
+<ol>
+<li>&#x6307;&#x6807;&#x6807;&#x7B7E;&#x540D;&#x79F0;&#x662F;&#x5426;&#x6B63;&#x786E;&#x3002;<a href="https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels" target="_blank">&#x6307;&#x6807;&#x540D;&#x79F0;&#x547D;&#x540D;&#x89C4;&#x8303;&#x53C2;&#x8003;</a></li>
+<li>&#x7B26;&#x5408;&#x914D;&#x7F6E;&#x7684;&#x6307;&#x6807;&#x5BF9;&#x5E94;&#x6807;&#x7B7E;&#x7684;&#x6700;&#x5927;&#x4E2A;&#x6570; </li>
+<li>&#x7B26;&#x5408;&#x914D;&#x7F6E;&#x7684; &#x6807;&#x7B7E;&#x540D;&#x79F0;&#x548C;Value &#x6700;&#x5927;&#x957F;&#x5EA6;</li>
+<li>&#x4E0A;&#x62A5;&#x7684;&#x91C7;&#x6837;&#x6570;&#x636E;&#x7684;&#x65F6;&#x95F4;&#x6233;&#x662F;&#x5426;&#x5728;&#x914D;&#x7F6E;&#x9650;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#x533A;&#x95F4;&#x5185; (min/max)</li>
+</ol>
+<p>Distributors &#x662F;&#x65E0;&#x72B6;&#x6001;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x6C34;&#x5E73;&#x6269;&#x7F29;&#x5BB9;.</p>
+<p>Distributors &#x6709;&#x9AD8;&#x53EF;&#x7528;&#x8FFD;&#x8E2A;&#x5668;(High Availability (HA) Tracker)&#x7684;&#x7279;&#x70B9;&#x3002;&#x5F53;&#x542F;&#x7528;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5BF9;&#x5197;&#x4F59;prometheus&#x7684;&#x91C7;&#x6837;&#x6570;&#x636E;&#x53BB;&#x91CD;&#x3002;
+HATracker &#x662F;&#x57FA;&#x4E8E;cluster &#x548C; replica&#x7684;&#x6807;&#x7B7E;&#x8FDB;&#x884C;&#x53BB;&#x91CD;&#x7684;&#x3002;cluster &#x6807;&#x7B7E;&#x552F;&#x4E00;&#x6807;&#x793A;&#x4E86;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x79DF;&#x6237;&#x7684;&#x67D0;&#x4E2A;&#x96C6;&#x7FA4;&#x7684; prometheus &#x5B9E;&#x4F8B;&#xFF0C;&#x800C; replica &#x552F;&#x4E00;&#x6807;&#x8BC6;&#x666E;&#x7F57;&#x7C73;&#x4FEE;&#x65AF;&#x7FA4;&#x96C6;&#x5185;&#x7684;&#x526F;&#x672C;&#x3002;
+&#x53BB;&#x91CD;&#x903B;&#x8F91;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x5982;&#x679C;&#x6536;&#x5230;&#x7684;replica &#x4E0D;&#x662F;&#x96C6;&#x7FA4;&#x4E2D;&#x5F53;&#x524D;&#x7684;&#x4E3B; replica&#xFF0C;&#x5219;&#x8BA4;&#x4E3A;&#x4F20;&#x5165;&#x7684;&#x6837;&#x672C;&#x662F;&#x91CD;&#x590D;&#x7684;&#xFF0C;&#x4ECE;&#x800C;&#x88AB;&#x4E22;&#x5F03;&#x3002;
+HATracker &#x5982;&#x4F55;&#x77E5;&#x9053;&#x90A3;&#x4E2A;replica &#x662F;&#x4E3B;&#x5462;&#xFF1F;</p>
+<ul>
+<li>Consul</li>
+<li>Etcd</li>
+</ul>
+<p>&#x8FD9;&#x4E24;&#x79CD;&#x65B9;&#x6848;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x53C2;&#x8003; <a href="https://cortexmetrics.io/docs/production/ha-pair-handling/" target="_blank">HA &#x952E;&#x503C;&#x5BF9;&#x914D;&#x7F6E;</a></p>
+<h4 id="distributor-&#x5982;&#x4F55;&#x5C06;&#x6570;&#x636E;&#x53D1;&#x9001;&#x7ED9;-ingester-">Distributor &#x5982;&#x4F55;&#x5C06;&#x6570;&#x636E;&#x53D1;&#x9001;&#x7ED9; ingester ?</h4>
+<h5 id="&#x901A;&#x8FC7;-hashing">&#x901A;&#x8FC7; Hashing</h5>
+<p>Distributor &#x652F;&#x6301;&#x4E24;&#x79CD;hash&#x7B56;&#x7565;&#xFF0C;&#x53EF;&#x914D;&#x7F6E;</p>
+<ol>
+<li>&#x9ED8;&#x8BA4;&#x901A;&#x8FC7;&#x6307;&#x6807;&#x540D;&#x79F0;&#x548C; &#x79DF;&#x6237;ID&#x505A;hash</li>
+<li>&#x901A;&#x8FC7;&#x6307;&#x6807;&#x540D;&#x79F0;&#xFF0C;lables &#x548C; &#x79DF;&#x6237;ID &#x505A;hash</li>
+</ol>
+<h5 id="hash-&#x73AF;">Hash &#x73AF;</h5>
+<p>&#x6240;&#x6709;&#x7684; ingester &#x4F1A;&#x5411;&#x4E2D;&#x5FC3;&#x6CE8;&#x518C;&#xFF08;kv sttore su as consul or etcd)&#x3002;
+&#x6CE8;&#x518C;&#x65F6;&#x4F1A;&#x5E26;&#x4E0A;&#x4E00;&#x4E2A; 32&#x4F4D;&#x7684;&#x968F;&#x673A;&#x6570;&#x505A;token , &#x8FD9;&#x4E2A;token &#x51B3;&#x5B9A;&#x4E86;&#x4E00;&#x4E2A;hash key &#x7684;&#x533A;&#x95F4;&#xFF0C;
+&#x5728;&#x6B64;&#x533A;&#x95F4;&#x7684; &#x5E8F;&#x5217;&#x5C06;&#x53D1;&#x9001;&#x5230;&#x8FD9;&#x4E2A; token &#x6240;&#x6620;&#x5C04;&#x7684; ingester&#x3002;</p>
+<h4 id="&#x4E00;&#x81F4;&#x6027;quorum-consistency">&#x4E00;&#x81F4;&#x6027;(Quorum consistency)</h4>
+<p>&#x4E3A;&#x4E86;&#x53D6;&#x4FDD;&#x67E5;&#x8BE2;&#x7684;&#x4E00;&#x81F4;&#x6027;&#xFF0C;Cortex &#x91C7;&#x7528;&#x4E86; <a href="https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf" target="_blank">Dynamo-style</a>, 
+&#x5373;, &#x5199;&#x5165;&#x5FC5;&#x987B;&#x7B49;&#x5230; &#x8D85;&#x8FC7;&#x534A;&#x6570;+1 &#x4E2A; ingester &#x8FD4;&#x56DE;&#x6210;&#x529F;&#x624D;&#x7B97;&#x6210;&#x529F;</p>
+<h3 id="&#x6570;&#x636E;&#x6444;&#x5165;&#x7EC4;&#x4EF6;-ingester">&#x6570;&#x636E;&#x6444;&#x5165;&#x7EC4;&#x4EF6; Ingester</h3>
+<p>&#x6570;&#x636E;&#x6444;&#x5165;&#x7EC4;&#x4EF6;&#xFF0C;&#x5B9E;&#x73B0;&#x8F93;&#x5165;&#x7684;&#x5E8F;&#x5217;&#x5199;&#x5165;&#x5230;&#x957F;&#x671F;&#x5B58;&#x50A8;&#x7684;&#x540E;&#x7AEF;&#x670D;&#x52A1;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;&#x70ED;&#x6570;&#x636E;(&#x7F13;&#x5B58;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x6570;&#x636E;)&#x7684;&#x67E5;&#x8BE2;&#x3002;</p>
+<p>Ingester &#x6536;&#x5230;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x7ACB;&#x523B;&#x5230;&#x540E;&#x7AEF;&#x5B58;&#x50A8;&#xFF0C;&#x800C;&#x662F;&#x4F1A;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x7F13;&#x5B58;&#x3002;&#x8FD9;&#x6837;&#x505A;&#x7684;&#x597D;&#x5904;&#x662F;</p>
+<ol>
+<li>&#x5BF9;&#x4E8E;&#x5B9E;&#x65F6;&#x70ED;&#x6570;&#x636E;&#x7684;&#x9884;&#x8BA1;&#x7B97;&#x63D0;&#x4F9B;&#x66F4;&#x597D;&#x7684;&#x67E5;&#x8BE2;&#x6027;&#x80FD;</li>
+<li><p>&#x5BF9;&#x4E0E;&#x544A;&#x8B66;&#x7B56;&#x7565;&#x8BA1;&#x7B97;&#x7684;&#x66F4;&#x53CB;&#x597D;
+&#x4E5F;&#x56E0;&#x6B64;&#xFF0C;Ingesters &#x662F;&#x534A;&#x72B6;&#x6001;&#x5316;&#x7684;&#x670D;&#x52A1;&#x3002;
+&#x4F46;&#x8FD9;&#x56DE;&#x5E26;&#x6765;&#x6F5C;&#x5728;&#x7684;&#x6570;&#x636E;&#x4E22;&#x5931;&#x98CE;&#x9669;&#xFF0C;&#x82E5; ingester &#x5F02;&#x5E38;&#x6302;&#x6389;&#xFF0C;&#x90A3;&#x4E48;&#x6536;&#x5230;&#x6570;&#x636E;&#xFF0C;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x5C1A;&#x672A;&#x5199;&#x5165;&#x540E;&#x7AEF;&#x5B58;&#x50A8;&#x7684;&#x6570;&#x636E;&#x5C31;&#x4F1A;&#x4E22;&#x5931;&#xFF0C;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x529E;&#x6CD5;&#x6709;&#x4E24;&#x4E2A;</p>
+</li>
+<li><p>&#x526F;&#x672C;  Replication</p>
+</li>
+<li>WAL  Write-ahead log</li>
+</ol>
+<h3 id="querier">Querier</h3>
+<p>Querier&#x901A;&#x8FC7;PromQL &#x63D0;&#x4F9B;&#x67E5;&#x8BE2;&#x670D;&#x52A1;&#x3002;Querier &#x4ECE; ingesters &#x548C; long-term
+&#x5B58;&#x50A8;&#x4E2D;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x65F6;&#x95F4;&#x6233;&#x6765;&#x505A;&#x53BB;&#x91CD;</p>
+<p>Querier &#x662F;&#x65E0;&#x72B6;&#x6001;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x6C34;&#x5E73;&#x505A;&#x6269;&#x7F29;&#x5BB9;&#x3002;</p>
+<h3 id="query-frontend">Query frontend</h3>
+<p>&#x67E5;&#x8BE2;&#x524D;&#x7AEF;&#x662F;&#x4E00;&#x4E2A; &#x53EF;&#x9009;&#x7684;&#x670D;&#x52A1;&#xFF0C;&#x7528;&#x6765;&#x52A0;&#x901F;&#x67E5;&#x8BE2;&#x8DEF;&#x5F84;&#x3002;</p>
+<p>query frontend &#x5728;&#x5185;&#x90E8;&#x6267;&#x884C;&#x4E00;&#x4E9B;&#x67E5;&#x8BE2;&#x8C03;&#x6574;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x4FDD;&#x5B58;&#x5728;&#x5185;&#x90E8;&#x961F;&#x5217;&#x4E2D;&#x3002;query&#x7EC4;&#x4EF6;
+&#x5145;&#x5F53;&#x771F;&#x6B63;&#x7684;worker , &#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x63D0;&#x51FA;&#x4F5C;&#x4E1A;&#xFF0C;&#x6267;&#x884C;&#x5E76;&#x8FD4;&#x56DE;&#x7ED9; query frontend, &#x4EE5;&#x4FBF;&#x5176;
+&#x505A;&#x805A;&#x5408;
+&#x67E5;&#x8BE2;&#x524D;&#x7AEF;&#x662F;&#x65E0;&#x72B6;&#x6001;&#x7684;&#xFF0C;&#x901A;&#x5E38;&#x4F1A;&#x90E8;&#x7F72;&#x4E24;&#x4E2A;&#x526F;&#x672C; &#x3002;</p>
+<p>&#x67E5;&#x8BE2;&#x524D;&#x7AEF;&#x7684;&#x961F;&#x5217;&#x673A;&#x5236;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#xFF1A;</p>
+<ol>
+<li>&#x786E;&#x4FDD;&#x5927;&#x7684;&#x67E5;&#x8BE2; - &#x6BD4;&#x5982;&#x53EF;&#x80FD;&#x4F1A;&#x9020;&#x6210;OOM&#x9519;&#x8BEF;&#x7684;&#xFF0C;&#x8FD4;&#x56DE;&#x9519;&#x8BEF;&#x3002;</li>
+<li>&#x901A;&#x8FC7;&#x5148;&#x8FDB;&#x5148;&#x51FA;&#xFF08;FIFO&#xFF09;&#x961F;&#x5217;&#xFF0C;&#x5C06;&#x591A;&#x4E2A;&#x5927;&#x578B;&#x8BF7;&#x6C42;&#x5206;&#x53D1;&#x5230;&#x6240;&#x6709;&#x7684;&#x67E5;&#x8BE2;&#x5668;&#x4E0A;&#xFF0C;&#x8BBF;&#x95EE;&#x4ED6;&#x4EEC;&#x88AB;
+&#x9001;&#x5F80;&#x5355;&#x4E2A;&#x67E5;&#x8BE2;&#x5668;&#x4E0A;&#x3002;</li>
+<li>&#x9632;&#x6B62;&#x7531;&#x4E8E;&#x5176;&#x5B83;&#x79DF;&#x6237;&#x7684;&#x975E;</li>
+</ol>
+<p>&#x5176;&#x5B83;&#x67E5;&#x8BE2;&#x4F18;&#x5316;&#x7684;&#x7B56;&#x7565;&#xFF1A;</p>
+<ul>
+<li>&#x5206;&#x5272;&#xFF08;Spliting&#xFF09;
+&#x5C06;&#x4E00;&#x4E2A;&#x591A;&#x5929;&#x7684;&#x67E5;&#x8BE2;&#x8BF7;&#x6C42;&#x62C6;&#x5206;&#x6210;&#x591A;&#x4E2A;&#x5355;&#x5929;&#x7684;&#x67E5;&#x8BE2;&#x8BF7;&#x6C42;&#xFF0C;&#x5E76;&#x884C;&#x7684;&#x6267;&#x884C;&#x8FD9;&#x4E9B;&#x8BF7;&#x6C42;&#xFF0C;&#x5728;&#x5C06;&#x7ED3;&#x679C;&#x548C;&#x5408;&#x5E76;&#x3002;</li>
+<li>&#x7F13;&#x5B58;(Caching)
+&#x67E5;&#x8BE2;&#x524D;&#x7AEF;&#x652F;&#x6301;&#x7F13;&#x5B58;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#xFF0C;&#x5E76;&#x5728;&#x540E;&#x7EED;&#x67E5;&#x8BE2;&#x4E2D;&#x91CD;&#x7528;&#x8FD9;&#x4E9B;&#x7ED3;&#x679C;.
+&#x5982;&#x679C;&#x7F13;&#x5B58;&#x7684;&#x7ED3;&#x679C;&#x4E0D;&#x5168;&#xFF0C;&#x67E5;&#x8BE2;&#x524D;&#x7AEF;&#x4F1A;&#x8BA1;&#x7B97;&#x5B50;&#x67E5;&#x8BE2;&#x5E76;&#x4F1A;&#x5E76;&#x53D1;&#x6267;&#x884C;&#x8FD9;&#x4E9B;&#x5B50;&#x67E5;&#x8BE2;
+&#x5F53;&#x524D;cortex &#x7684;&#x7F13;&#x5B58;&#x540E;&#x7AEF; &#x652F;&#x6301; memcached, redis , &#x5185;&#x5B58;&#x7F13;&#x5B58;&#xFF0C;&#x8FD9;&#x4E9B;&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x7F13;&#x5B58;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x3002;</li>
+</ul>
+<h3 id="ruler">Ruler</h3>
+<p>Ruler &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x670D;&#x52A1;&#xFF0C;&#x6267;&#x884C;PromQL &#x7684;&#x67E5;&#x8BE2;&#x6765; &#x5B9E;&#x73B0;&#x9884;&#x8BA1;&#x7B97;&#x548C;&#x544A;&#x8B66;&#x3002;
+Ruler &#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x534A;&#x72B6;&#x6001;&#x7684;&#x7EC4;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x88AB;&#x6C34;&#x5E73;&#x6269;&#x5BB9;&#x3002;</p>
+<h3 id="alertmanager">Alertmanager</h3>
+<p> &#x544A;&#x8B66;&#x670D;&#x52A1;&#xFF0C;&#x5728;prometheus alertmanager &#x4E4B;&#x4E0A;&#x6784;&#x5EFA;&#x7684;&#xFF0C;&#x589E;&#x52A0;&#x4E86;&#x591A;&#x79DF;&#x6237;&#x7684;&#x652F;&#x6301;&#x3002;
+ &#x9700;&#x8981;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x6765;&#x5B58;&#x50A8;&#x79DF;&#x6237;&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;</p>
+<h3 id="configs-api">Configs API</h3>
+<p> &#x53EF;&#x9009;&#x7EC4;&#x4EF6;&#xFF0C;&#x7BA1;&#x7406; Ruler &#x548C; Alertmanagers &#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;
+ &#x63D0;&#x4F9B;API&#x6765;&#x5BF9; &#x89C4;&#x5219;&#x548C;&#x544A;&#x8B66;&#x7684;&#x914D;&#x7F6E;&#x8FDB;&#x884C;&#x589E;&#x5220;&#x6539;&#x67E5;&#xFF0C;&#x5E76;&#x5C06;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x5B58;&#x50A8;&#x5230;&#x540E;&#x7AEF;&#x6570;&#x636E;&#x5E93;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="../../chapter6/一致性Hash算法JCH.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 6.1 JumpConsistentHash">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.6.1 Cortex 架构","level":"3.1.6.1","depth":3,"next":{"title":"6.1 JumpConsistentHash","level":"7.1","depth":1,"path":"docs/chapter6/一致性Hash算法JCH.md","ref":"docs/chapter6/一致性Hash算法JCH.md","articles":[]},"previous":{"title":"2.6 Cortex 分析","level":"3.1.6","depth":2,"ref":"","articles":[{"title":"2.6.1 Cortex 架构","level":"3.1.6.1","depth":3,"path":"docs/chapter2/cortex/cortexoverview.md","ref":"docs/chapter2/cortex/cortexoverview.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/cortex/cortexoverview.md","mtime":"2020-06-13T07:52:07.844Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-13T07:52:33.143Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

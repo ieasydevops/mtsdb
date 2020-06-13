@@ -17,7 +17,7 @@ bui#  Summary
 * 第二章 时序数据库的比较分析
 
   * [2.1 时间序列数据库分析概览说明](docs/chapter2/时序数据库一般分析方法.md)
-  * [2.2 时间序列数据库VictoriaMetrics分析](docs/chapter2/VictoriaMetrics.md)
+  * [2.2 时间序列数据库VictoriaMetrics分析](docs/chapter2/victoriametrics/VictoriaMetrics.md)
   * 2.3 时间序列数据库Influxdb分析
     * [2.3.1 Influxdb 概览](docs/chapter2/influxdb/InfluxdbOverView.md)
     * [2.3.2 Influxdb 存储引擎](docs/chapter2/influxdb/InfluxdbStoreEngine.md)
@@ -25,6 +25,10 @@ bui#  Summary
   * 2.4 时间序列数据库lindb分析
     * [2.4.1 lindb 概览](docs/chapter2/lindb/LindbOverView.md)
     * [2.4.2 lindb 数据模型](docs/chapter2/lindb/lindbDataModel.md)
+  * 2.5 时间序列数据库Druid分析
+    * [2.5.1 Druid 索引](docs/chapter2/druid/DruidIndex.md)
+  * 2.6 Cortex 分析
+    * [2.6.1 Cortex 架构](docs/chapter2/cortex/cortexoverview.md)
 
     
 ---
