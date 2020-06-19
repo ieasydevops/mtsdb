@@ -1,0 +1,993 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2.7.2 存储引擎实现分析 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../../chapter6/一致性Hash算法JCH.html" />
+    
+    
+    <link rel="prev" href="../promethesutsdb.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../../">
+            
+                <a href="../../../../">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第一部分 需求分析，业务建模</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    第一章 时间序列数据的定义和业务建模
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../../../chapter1/时间序列数据的定义.html">
+            
+                <a href="../../../chapter1/时间序列数据的定义.html">
+            
+                    
+                    1.1 数据序列数据的定义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../../../chapter1/时间序列数据的特性.html">
+            
+                <a href="../../../chapter1/时间序列数据的特性.html">
+            
+                    
+                    1.2 时间序列数据的特性
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第二部分 现状分析，技术调研</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" >
+            
+                <span>
+            
+                    
+                    第二章 时序数据库的比较分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../../时序数据库一般分析方法.html">
+            
+                <a href="../../时序数据库一般分析方法.html">
+            
+                    
+                    2.1 时间序列数据库分析概览说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../../victoriametrics/VictoriaMetrics.html">
+            
+                <a href="../../victoriametrics/VictoriaMetrics.html">
+            
+                    
+                    2.2 时间序列数据库VictoriaMetrics分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" >
+            
+                <span>
+            
+                    
+                    2.3 时间序列数据库Influxdb分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.3.1" data-path="../../influxdb/InfluxdbOverView.html">
+            
+                <a href="../../influxdb/InfluxdbOverView.html">
+            
+                    
+                    2.3.1 Influxdb 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.2" data-path="../../influxdb/InfluxdbStoreEngine.html">
+            
+                <a href="../../influxdb/InfluxdbStoreEngine.html">
+            
+                    
+                    2.3.2 Influxdb 存储引擎
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3.3" data-path="../../influxdb/Influxdbtsi.html">
+            
+                <a href="../../influxdb/Influxdbtsi.html">
+            
+                    
+                    2.3.2 Influxdb 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" >
+            
+                <span>
+            
+                    
+                    2.4 时间序列数据库lindb分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.4.1" data-path="../../lindb/LindbOverView.html">
+            
+                <a href="../../lindb/LindbOverView.html">
+            
+                    
+                    2.4.1 lindb 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4.2" data-path="../../lindb/lindbDataModel.html">
+            
+                <a href="../../lindb/lindbDataModel.html">
+            
+                    
+                    2.4.2 lindb 数据模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" >
+            
+                <span>
+            
+                    
+                    2.5 时间序列数据库Druid分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.5.1" data-path="../../druid/DruidIndex.html">
+            
+                <a href="../../druid/DruidIndex.html">
+            
+                    
+                    2.5.1 Druid 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" >
+            
+                <span>
+            
+                    
+                    2.6 Cortex 分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.6.1" data-path="../../cortex/cortexoverview.html">
+            
+                <a href="../../cortex/cortexoverview.html">
+            
+                    
+                    2.6.1 Cortex 架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" >
+            
+                <span>
+            
+                    
+                    2.7 Prometheus 分析
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.7.1" data-path="../promethesutsdb.html">
+            
+                <a href="../promethesutsdb.html">
+            
+                    
+                    2.7.1 Prometheus Tsdb 分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.7.2" data-path="tsdbstoreengine.html">
+            
+                <a href="tsdbstoreengine.html">
+            
+                    
+                    2.7.2 存储引擎实现分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第三部分 模型推演，规范设计</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第四部分 代码实现，实践验证</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第五部分 未来展望</li>
+        
+        
+    
+
+    
+        
+        <li class="header">第六部分 附录</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../../../chapter6/一致性Hash算法JCH.html">
+            
+                <a href="../../../chapter6/一致性Hash算法JCH.html">
+            
+                    
+                    6.1 JumpConsistentHash
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="../../../chapter6/">
+            
+                <a href="../../../chapter6/">
+            
+                    
+                    6.2 索引
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="../../../chapter6/skipList.html">
+            
+                <a href="../../../chapter6/skipList.html">
+            
+                    
+                    6.3 跳表的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="../../../chapter6/LevelCompaction.html">
+            
+                <a href="../../../chapter6/LevelCompaction.html">
+            
+                    
+                    6.4 Level Compaction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="../../../chapter6/db.html">
+            
+                <a href="../../../chapter6/db.html">
+            
+                    
+                    6.10 DB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" data-path="../../../chapter6/mmap.html">
+            
+                <a href="../../../chapter6/mmap.html">
+            
+                    
+                    6.11 mmap
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">参考文献</li>
+        
+        
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../../.." >2.7.2 存储引擎实现分析</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tsdb-&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x5B9E;&#x73B0;&#x5206;&#x6790;">tsdb &#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x5B9E;&#x73B0;&#x5206;&#x6790;</h1>
+<p>&#x4E0A;&#x4E00;&#x6587;&#xFF0C;&#x5BF9;prometheus tsdb &#x7684;&#x8BBE;&#x8BA1;&#x7406;&#x5FF5;&#x53CA;&#x8981;&#x89E3;&#x51B3;&#x7684;&#x6838;&#x5FC3;&#x95EE;&#x9898;&#x6709;&#x4E00;&#x4E2A;&#x5B8F;&#x89C2;&#x7684;&#x4E86;&#x89E3;&#x3002;&#x672C;&#x8282;&#x5C06;&#x6DF1;&#x5165;&#x5230;&#x4EE3;&#x7801;&#x5C42;&#x6B21;&#xFF0C;&#x5206;&#x6790;tsdb &#x7684;&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x5B9E;&#x73B0;</p>
+<h2 id="&#x76EE;&#x5F55;">&#x76EE;&#x5F55;</h2>
+<ul>
+<li>&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x7684;&#x5B9E;&#x73B0;&#x7ED3;&#x6784;&#x6982;&#x89C8;</li>
+<li>&#x5185;&#x5B58;&#x529F;&#x80FD;&#x53CA;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5206;&#x6790;</li>
+<li>DB &#x521D;&#x59CB;&#x5316;&#x8FC7;&#x7A0B;</li>
+<li>&#x6570;&#x636E;&#x5199;&#x5165;&#x8DEF;&#x5F84;&#x5206;&#x6790;</li>
+<li>&#x603B;&#x7ED3;</li>
+</ul>
+<h2 id="&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x7684;&#x5B9E;&#x73B0;&#x7ED3;&#x6784;&#x6982;&#x89C8;">&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x7684;&#x5B9E;&#x73B0;&#x7ED3;&#x6784;&#x6982;&#x89C8;</h2>
+<h3 id="&#x6838;&#x5FC3;&#x529F;&#x80FD;">&#x6838;&#x5FC3;&#x529F;&#x80FD;</h3>
+<p>&#x6838;&#x5FC3;&#x529F;&#x80FD;: &#x80FD;&#x5904;&#x7406;&#x843D;&#x5230;&#x4E00;&#x4E2A;Hash&#x5206;&#x533A;&#x7684;&#x65F6;&#x5E8F;&#x6570;&#x636E;&#x7684;&#x8BFB;&#x5199;&#x8BF7;&#x6C42;&#x3002; </p>
+<p>&#x7531;&#x4E8E;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#xFF0C;&#x9488;&#x5BF9;&#x7684;&#x662F;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x6570;&#x636E;&#xFF0C;&#x4E4B;&#x524D;&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;&#x62BD;&#x8C61;&#x4E3A;:</p>
+<pre><code>set { (k,v)}, v , t &#x5373;: labels &#x96C6;&#x5408; , &#x5F53;&#x524D;&#x503C;,&#x65F6;&#x95F4;&#x6233;.
+</code></pre><p>&#x7531;&#x4E8E;&#x6570;&#x636E;&#x91C7;&#x6837;&#x70B9;&#x5230;&#x6765;&#x7684;&#x65F6;&#x523B;&#x5B58;&#x5728;&#x4E00;&#x5B9A;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x80FD;&#x591F;&#x652F;&#x6301;Append &#x64CD;&#x4F5C;&#xFF0C;&#x7B49;&#x5230;Append&#x4E00;&#x5B9A;&#x91CF;&#x65F6;&#xFF0C;&#x6279;&#x91CF;&#x63D0;&#x4EA4;&#xFF1B;&#x82E5;&#x5199;&#x5165;&#x5931;&#x8D25;&#x53EF;&#x4EE5;&#x56DE;&#x6EDA;&#x3002;&#x6BCF;&#x6B21;&#x6279;&#x91CF;&#x8BF7;&#x6C42;&#x5230;&#x6765;&#xFF0C;&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;Appender&#x3002;
+Appender  &#x662F;&#x5BF9;&#x7528;&#x6237;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#x7684;&#x62BD;&#x8C61;&#xFF0C;DB&#x662F;&#x6570;&#x636E;&#x5F15;&#x64CE;&#x7684;&#x62BD;&#x8C61;&#xFF0C;&#x4E8C;&#x8005;&#x7ED3;&#x5408;&#xFF0C;&#x5B9E;&#x73B0;&#x4E86;tsdb, &#x7B80;&#x5316;&#x56FE;&#x5982;&#x4E0B;:
+<img src="images/dbengine.png" alt="dbengine">
+&#x5176;&#x4E2D;&#xFF0C;db &#x7684;&#x6838;&#x5FC3;&#x6A21;&#x5757;&#x5305;&#x62EC;&#xFF1A;
+&#x7D2B;&#x8272;&#x90E8;&#x5206;&#xFF0C;&#x4E3A;DB&#x7684;&#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x6A21;&#x578B;</p>
+<ol>
+<li>Head &#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x7684;&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;</li>
+<li>Block &#x6C34;&#x5E73;&#x65B9;&#x5411;&#x7684;&#x65F6;&#x95F4;&#x5206;&#x7247;</li>
+<li>Compactor &#x8D1F;&#x8D23;block &#x7684; Compaction, &#x8FC7;&#x671F;&#x6570;&#x636E;&#x7684;&#x5220;&#x9664;&#x7B49;</li>
+<li>chunkpool : chunk &#x6C60;</li>
+</ol>
+<p>&#x6D45;&#x9EC4;&#x8272;&#x90E8;&#x5206;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x57FA;&#x7840;&#x7684;&#x5DE5;&#x5177;&#x7C7B;&#x6A21;&#x5757;:</p>
+<ol>
+<li>FileUtil: &#x6587;&#x4EF6;&#x5DE5;&#x5177;&#x7C7B;&#xFF0C;&#x63D0;&#x4F9B;&#x591A;&#x4E2A;block &#x6587;&#x4EF6;&#x7684;&#x9501;</li>
+<li>log,dbMetrics,Options &#x9ED8;&#x8BA4;&#x914D;&#x7F6E;</li>
+</ol>
+<h3 id="db-&#x7684;&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7B80;&#x5316;&#x8868;&#x8FBE;&#x5982;&#x4E0B;&#xFF1A;">DB &#x7684;&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7B80;&#x5316;&#x8868;&#x8FBE;&#x5982;&#x4E0B;&#xFF1A;</h3>
+<pre><code>// DB handles reads and writes of time series falling into
+// a hashed partition of a seriedb.
+type DB struct {
+    ...
+    dir   str  // DB&#x6570;&#x636E;&#x7684;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;
+    lockf fileutil.Releaser // &#x5BF9;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x9501;&#x63D0;&#x4F9B; Release &#x65B9;&#x6CD5;
+    logger    log.Logger   // &#x57FA;&#x7840;&#x7684;&#x65E5;&#x5FD7;&#x7C7B;
+    metrics   *dbMetrics   // db &#x7684;&#x76D1;&#x63A7;&#x6307;&#x6807;&#xFF0C;&#x63D0;&#x4F9B;&#x7CFB;&#x7EDF;&#x7684;&#x53EF;&#x89C2;&#x6D4B;&#x6027;
+    opts      *Options    // &#x4E00;&#x4E9B;&#x9ED8;&#x8BA4;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x6BD4;&#x5982;WAL Segment&#x5927;&#x5C0F;&#xFF0C;&#x6BCF;&#x4E2A;Block&#x7684;&#x65F6;&#x95F4;&#x7A97;&#x53E3;&#xFF0C;&#x9ED8;&#x8BA4;&#x8FC7;&#x671F;&#x65F6;&#x95F4;15&#x5929;&#x7B49;
+    chunkPool chunkenc.Pool  //chunk &#x6C60;
+    compactor Compactor  // compaction &#x7684;&#x6267;&#x884C;&#x5668;
+    blocks []*Block   // &#x5185;&#x5B58;block 
+    head *Head     // &#x5185;&#x5B58;&#x5012;&#x6392;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x627F;&#x8F7D;&#x4E3B;&#x4F53;&#xFF0C;&#x6838;&#x5FC3;&#x7684;&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;
+    ...
+}
+</code></pre><h2 id="&#x5185;&#x5B58;&#x529F;&#x80FD;&#x53CA;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5206;&#x6790;">&#x5185;&#x5B58;&#x529F;&#x80FD;&#x53CA;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5206;&#x6790;</h2>
+<h3 id="&#x5185;&#x5B58;&#x6838;&#x5FC3;&#x529F;&#x80FD;&#x5206;&#x6790;">&#x5185;&#x5B58;&#x6838;&#x5FC3;&#x529F;&#x80FD;&#x5206;&#x6790;</h3>
+<p>&#x6570;&#x636E;&#x5199;&#x5165;&#x5185;&#x5B58;&#x540E;&#xFF0C;&#x5FC5;&#x987B;&#x8981;&#x6709;&#x4E00;&#x4E2A;&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x5B9E;&#x73B0;&#x6570;&#x636E;&#x5E8F;&#x5217;&#x70ED;&#x6570;&#x636E;&#x7F13;&#x5B58;&#x3002;&#x80FD;&#x5BF9;&#x4E00;&#x4E2A;
+&#x65F6;&#x95F4;&#x7A97;&#x53E3;&#xFF08;&#x9ED8;&#x8BA4;2&#x5C0F;&#x65F6;&#xFF09;&#x7684;&#x65F6;&#x5E8F;&#x6570;&#x636E;&#x7684;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#x3002;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x9700;&#x8981;&#x5B8C;&#x6210;&#x5982;&#x4E0B;&#x529F;&#x80FD;&#xFF1A;</p>
+<ul>
+<li>&#x80FD;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x5168;&#x5C40;&#x6709;&#x5E8F;&#x7684;&#x6B63;&#x6392;&#x7D22;&#x5F15;</li>
+</ul>
+<pre><code>    1.1 &#x6240;&#x6709;&#x7684;&#x5E8F;&#x5217;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;ID&#x6216;Hash O (1) &#x65F6;&#x95F4;&#x83B7;&#x53D6;
+      //All series addressable by their ID or hash.
+      series         *stripeSeries
+    1.2 &#x4E00;&#x4E2A;&#x6807;&#x7B7E;&#x5BF9;&#x5E94;&#x90A3;&#x4E9B;Value
+       values  map[string]stringset // Label names to possible values.
+</code></pre><ul>
+<li>&#x80FD;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;&#x5012;&#x6392;&#x7D22;&#x5F15;</li>
+</ul>
+<pre><code>    &#x6BCF;&#x4E2A;&#x6807;&#x7B7E;(k,v)&#x5BF9;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;&#x5E8F;&#x5217;ID&#x5217;&#x8868;
+    postings *index.MemPostings // Postings lists for terms.
+</code></pre><ul>
+<li><p>&#x6709;&#x4E00;&#x4E2A;WAL&#x7EC4;&#x4EF6;</p>
+<pre><code> wal          *wal.WAL
+</code></pre></li>
+<li><p>&#x7EF4;&#x62A4; &#x5185;&#x5B58;chunk &#x5230;&#x78C1;&#x76D8; chunk &#x6620;&#x5C04;</p>
+<pre><code> // chunkDiskMapper is used to write and read Head chunks to/from disk.
+ chunkDiskMapper *chunks.ChunkDiskMapper
+</code></pre></li>
+</ul>
+<h3 id="&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;">&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;</h3>
+<p>&#x4EE5;&#x4E0A;&#x7684;&#x529F;&#x80FD;&#x662F;&#x901A;&#x8FC7; Head &#x6765;&#x627F;&#x8F7D;&#x7684;&#x3002;Head &#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7B80;&#x5316;&#x6807;&#x793A;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>// Head handles reads and writes of time series data within a time window.
+type Head struct {
+    ...
+    chunkRange       int64    
+    numSeries        uint64 
+    minTime, maxTime int64 // Current min and max of the samples included in the head.
+    minValidTime     int64 // &#x52A0;&#x5165;Head&#x7684;&#x6570;&#x636E;&#x7684;&#x6700;&#x5C0F;&#x6709;&#x6548;&#x65F6;&#x95F4;&#xFF0C;&#x5FC5;&#x987B;&#x6BD4;&#x6700;&#x8FD1;&#x6301;&#x4E45;&#x5316;Block&#x7684;&#x7684;&#x6700;&#x5927;&#x503C;&#x5927;&#x3002;Mint allowed to be added to the head. It shouldn&apos;t be lower than the maxt of the last persisted block.
+    lastSeriesID     uint64   // &#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5E8F;&#x5217;&#x7684;ID&#xFF0C;
+    ...
+    wal          *wal.WAL    
+    logger       log.Logger
+    ...
+    // All series addressable by their ID or hash.
+    series         *stripeSeries   // &#x6240;&#x6709;&#x5E8F;&#x5217;&#x6784;&#x6210;&#x7684;&#x4E00;&#x4E2A;&#x6563;&#x5217;&#x96C6;&#x5408;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5E8F;&#x5217;ID&#x6216;Hash&#x83B7;&#x53D6;&#x5BF9;&#x5E94;&#x7684;&#x533A;&#x57DF;&#xFF0C;&#x4ECE;&#x800C;&#x51CF;&#x5C0F;&#x9501;&#x7ADE;&#x4E89;
+    ...
+    symbols map[string]struct{}  // &#x7B26;&#x53F7;&#x8868;
+    values  map[string]stringset // &#x6807;&#x7B7E;&#x540D;&#x5BF9;&#x5E94;&#x7684;&#x5012;&#x6392;&#xFF0C;&#x4E00;&#x4E2A;&#x6807;&#x7B7E;&#x6709;&#x90A3;&#x4E9B;Value
+    ...
+    postings *index.MemPostings // &#x5012;&#x6392;&#x7D22;&#x5F15;
+    tombstones *tombstones.MemTombstones  // &#x5185;&#x5B58; tombstones
+    ...
+    // chunkDiskMapper is used to write and read Head chunks to/from disk.
+    chunkDiskMapper *chunks.ChunkDiskMapper
+    // chunkDirRoot is the parent directory of the chunks directory.
+    chunkDirRoot string
+    ...
+}
+</code></pre><p>&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x662F;&#xFF0C;&#x5012;&#x6392;&#x7D22;&#x5F15; MemPostings ,&#x6807;&#x7B7E;&#x540D;&#x79F0;Key&#xFF0C;&#x4E3A;&#x7B2C;&#x4E00;&#x5C42;Map&#x7684;Key&#xFF0C;Value&#x4E3A;&#x7B2C;&#x4E8C;&#x5C42;Map&#x7684;Key&#xFF0C;&#x7B2C;&#x4E8C;&#x5C42;Map&#x7684;Value&#x5219;&#x4E3A;&#x5305;&#x542B;&#x6B21;&#x6807;&#x7B7E;&#x7684;&#x5E8F;&#x5217; ID&#x7684;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x3002;</p>
+<pre><code>// MemPostings holds postings list for series ID per label pair.
+// They may be written to out of order.
+type MemPostings struct {
+    mtx     sync.RWMutex
+    m       map[string]map[string][]uint64  // &#x6807;&#x7B7E;&#x540D;&#x79F0;Key&#xFF0C;&#x4E3A;&#x7B2C;&#x4E00;&#x5C42;Map&#x7684;Key&#xFF0C;Value&#x4E3A;&#x7B2C;&#x4E8C;&#x5C42;Map&#x7684;Key&#xFF0C;&#x7B2C;&#x4E8C;&#x5C42;Map&#x7684;Value&#x5219;&#x4E3A;&#x5305;&#x542B;&#x6B21;&#x6807;&#x7B7E;&#x7684;&#x5E8F;&#x5217; ID&#x7684;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x3002;
+    ordered bool
+}
+</code></pre><p>&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x63D2;&#x5165;&#x7684;&#x5012;&#x6392;&#x7D22;&#x5F15;&#x7684;ID&#x662F;&#x6709;&#x5E8F;&#x7684;&#xFF1F;</p>
+<pre><code>    ...
+    // id is the given ID
+    list :=append(list,id)
+    ...
+    for i := len(list) - 1; i &gt;= 1; i-- {
+        if list[i] &gt;= list[i-1] {
+            break
+        }
+        list[i], list[i-1] = list[i-1], list[i]
+    }
+</code></pre><h2 id="db-&#x521D;&#x59CB;&#x5316;&#x8FC7;&#x7A0B;">DB &#x521D;&#x59CB;&#x5316;&#x8FC7;&#x7A0B;</h2>
+<pre><code>caller=db.go:571 msg=&quot;DBInit 1,&#x6253;&#x5F00;&#x6587;&#x4EF6;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x5B58;&#x50A8;&#x76EE;&#x5F55;,log,Block Ragne&#x7B49;&#xFF0C;&#x4FEE;&#x590D;&#x574F;&#x7684;&#x7D22;&#x5F15;&#x7248;&#x672C;&quot;
+caller=db.go:573 msg=&quot;DBInit 2,&#x521D;&#x59CB;&#x5316;DB&#x5B9E;&#x4F8B;&quot;
+caller=db.go:575 msg=&quot;DBInit 3,&#x76D1;&#x63A7;&#x6307;&#x6807;&#x521D;&#x59CB;&#x5316;&quot;
+caller=db.go:586 msg=&quot;DBInit 4,DB &#x6587;&#x4EF6;&#x52A0;&#x9501;&quot;
+caller=db.go:599 msg=&quot;DBInit 5,&#x521B;&#x5EFA;&#x4E00;&#x4E2A;LeveledCompactor&quot;
+caller=db.go:609 msg=&quot;DBInit 6,Wal Log&#x521D;&#x59CB;&#x5316;&quot;
+caller=db.go:626 msg=&quot;DBInit 7,&#x521B;&#x5EFA; Head&quot;
+caller=db.go:633 msg=&quot;DBInit 8,db reload&quot;
+caller=db.go:640 msg=&quot;DBInit 9,db blocks &#x521D;&#x59CB;&#x5316;&#xFF0C;&#x83B7;&#x53D6;&#x6700;&#x5C0F;&#x7684;&#x6709;&#x6548;&#x65F6;&#x95F4;&quot;
+caller=db.go:650 msg=&quot;DBInit 10,db &#x6838;&#x5FC3;&#x5185;&#x5B58;&#x7ED3;&#x6784;Head &#x521D;&#x59CB;&#x5316;&quot;
+caller=db.go:660 msg=&quot;DBInit 11,&#x542F;&#x52A8;db&#x4E3B;&#x7EBF;&#x7A0B;&quot;
+</code></pre><p>&#x5176;&#x4E2D;&#xFF0C;&#x6B65;&#x9AA4;10 &#x6700;&#x4E3A;&#x6838;&#x5FC3;&#xFF0C;10&#x4E2D;&#x5B8C;&#x6210;&#x4E86;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x5185;&#x5B58;&#x6B63;&#x6392;&#xFF0C;&#x5012;&#x6392;&#x7D22;&#x5F15;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x8FDB;&#x5165;&#x5176;&#x4E2D;&#xFF0C;</p>
+<pre><code>caller=head.go:646 msg=&quot;HeadInit 1&#xFF0C;&#x91CD;&#x653E;&#x78C1;&#x76D8;&#x7684;WAL&#x548C;&#x78C1;&#x76D8;&#x5185;&#x5B58;&#x53EF;&#x6620;&#x5C04;chunk&#xFF08;&#x5982;&#x679C;&#x6709;&#x7684;&#x8BDD;)&quot;
+caller=head.go:659 msg=&quot;HeadInit 1.1&#xFF0C;&#x83B7;&#x53D6;WAL&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;checkpoint&quot;
+caller=head.go:686 msg=&quot;HeadInit 1.2&#xFF0C;&#x83B7;&#x53D6;WAL&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;Segment&quot;
+caller=head.go:693 msg=&quot;HeadInit 1.3&#xFF0C;&#x4ECE;&#x6700;&#x8FD1;&#x7684;checkpoint &#x56DE;&#x586B;segment&quot;
+caller=head.go:702 msg=&quot;HeadInit 1.4&#xFF0C;&#x52A0;&#x8F7D;WAL&quot;
+caller=head.go:713 msg=&quot;WAL replay completed&quot; duration=744.825&#xB5;s
+</code></pre><h2 id="&#x6570;&#x636E;&#x5199;&#x5165;&#x8DEF;&#x5F84;&#x5206;&#x6790;">&#x6570;&#x636E;&#x5199;&#x5165;&#x8DEF;&#x5F84;&#x5206;&#x6790;</h2>
+<p>&#x63A5;&#x4E0B;&#x6765;&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x5199;&#x5165;&#x4E00;&#x90E8;&#x5206;&#x6570;&#x636E;&#xFF0C;&#x6765;&#x5206;&#x6790;&#xFF0C;&#x5B9E;&#x9645;&#x5B9E;&#x9645;&#x7684;&#x5199;&#x5165;&#x8DEF;&#x5F84;&#x3002;</p>
+<p>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;DB &#x5B9E;&#x4F8B;&#xFF0C;&#x6784;&#x5EFA;&#x538B;&#x6D4B;&#x6570;&#x636E;&#xFF0C;&#x57FA;&#x4E8E;&#x8BE5;DB&#x5B9E;&#x4F8B;&#xFF0C;&#x83B7;&#x53D6;Appender&#xFF0C;</p>
+<pre><code>app := b.storage.Appender()
+</code></pre><p>appedner &#x7684;&#x5B9E;&#x4F8B;&#x5316;&#x4EE3;&#x7801;&#x5982;&#x4E0B;</p>
+<pre><code>// Appender opens a new appender against the database.
+func (db *DB) Appender() storage.Appender {
+    return dbAppender{
+           db: db, 
+           Appender: db.head.Appender() 
+        }
+}
+</code></pre><p>Head  &#x7684; appender:  headAppender &#x662F;&#x7F13;&#x5B58;&#x5B58;&#x50A8; Appender &#x7684;&#x771F;&#x6B63;&#x5B9E;&#x73B0;&#x7C7B;&#xFF0C;</p>
+<pre><code>func (a *headAppender) Add(lset labels.Labels, t int64, v float64) (uint64, error)
+</code></pre><ul>
+<li><p>&#x9996;&#x5148;&#x8FDB;&#x884C;&#x91C7;&#x6837;&#x6570;&#x636E;&#x7684;&#x5408;&#x6CD5;&#x6027;&#x6821;&#x9A8C;</p>
+<p>&#x5982;&#xFF1A; &#x91C7;&#x6837;&#x6570;&#x636E;&#x662F;&#x5426;&#x8D8A;&#x754C;&#xFF0C;&#x592A;&#x65E7;&#xFF1B;&#x6807;&#x7B7E;&#x96C6;&#x5408;&#x662F;&#x5426;&#x4E3A;&#x7A7A;&#xFF0C;&#x6807;&#x7B7E;&#x662F;&#x5426;&#x91CD;&#x590D;&#x7B49;</p>
+</li>
+</ul>
+<pre><code>if t &lt; a.minValidTime {
+        a.head.metrics.outOfBoundSamples.Inc()
+        return 0, storage.ErrOutOfBounds
+    }
+
+    // Ensure no empty labels have gotten through.
+    lset = lset.WithoutEmpty()
+
+    if len(lset) == 0 {
+        return 0, errors.Wrap(ErrInvalidSample, &quot;empty labelset&quot;)
+    }
+
+    if l, dup := lset.HasDuplicateLabelNames(); dup {
+        return 0, errors.Wrap(ErrInvalidSample, fmt.Sprintf(`label name &quot;%s&quot; is not unique`, l))
+    }
+</code></pre><ul>
+<li>&#x5408;&#x6CD5;&#x6027;&#x6821;&#x9A8C;&#x5B8C;&#x6BD5;&#xFF0C;&#x521B;&#x5EFA;&#x5185;&#x5B58;&#x5E8F;&#x5217;</li>
+</ul>
+<p>&#x521B;&#x5EFA;&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x6709;&#x4E24;&#x4E2A;&#x5173;&#x952E;&#x70B9;&#xFF1A;</p>
+<ol>
+<li>&#x5168;&#x5C40;&#x5E8F;&#x5217;&#x5728;&#x5185;&#x5B58;&#x5982;&#x4F55;&#x5B58;&#x53D6;</li>
+<li>&#x5355;&#x4E2A;&#x5E8F;&#x5217;&#x5982;&#x4F55;&#x5B58;&#x53D6;</li>
+</ol>
+<p>&#x5168;&#x5C40;&#x5E8F;&#x5217;&#x7684;&#x5B58;&#x53D6;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5173;&#x6CE8; Head &#x7ED3;&#x6784;&#x4E2D;&#x7684; stripeSeries &#x8FD9;&#x4E2A;&#x6210;&#x5458;&#x5BF9;&#x8C61;</p>
+<pre><code>type Head struct {
+      ...
+    // All series addressable by their ID or hash.
+    series         *stripeSeries
+    ... 
+}
+
+// stripeSeries locks modulo ranges of IDs and hashes to reduce lock contention.
+// The locks are padded to not be on the same cache line. Filling the padded space
+// with the maps was profiled to be slower &#x2013; likely due to the additional pointer
+// dereferences.
+type stripeSeries struct {
+    size                    int   //&#x9ED8;&#x8BA4; 2^14 &#x4E2A;&#x6BB5;
+    series                  []map[uint64]*memSeries // &#x5168;&#x5C40;&#x5185;&#x5B58;&#x5E8F;&#x5217;hash &#x8868;
+    hashes                  []seriesHashmap  // &#x5E8F;&#x5217;&#x6807;&#x7B7E;hash &#x503C;&#x4E3A;Key&#xFF0C;[]memSeries&#x4E3A;Value,&#x4E3A;&#x4E86;&#x9632;&#x6B62;hash&#x51B2;&#x7A81;
+    locks                   []stripeLock  // &#x5206;&#x6BB5;&#x9501;
+    seriesLifecycleCallback SeriesLifecycleCallback
+}
+</code></pre><p>stripeSeries &#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x5C06;&#x5E8F;&#x5217;&#x5206;&#x6210;&#x4E86;&#x5F88;&#x591A;&#x6BB5;&#xFF0C;&#x964D;&#x4F4E;&#x9501;&#x7ADE;&#x4E89;&#x3002; &#x521D;&#x59CB;&#x5316;&#x65F6;&#xFF0C;&#x9ED8;&#x8BA4;&#x5C06;&#x5E8F;&#x5217;&#x5212;&#x5206;&#x4E3A; 2^14 &#x4E2A;&#x6761;&#x5E26;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x770B;&#x4E0B;&#x5BF9;&#x5E94;&#x65B0;&#x589E;&#x7684;&#x4E00;&#x4E2A;&#x5E8F;&#x5217;&#xFF0C;&#x5982;&#x4F55;&#x83B7;&#x53D6;&#x8BE5;&#x5E8F;&#x5217;&#x5BF9;&#x5E94;&#x7684;&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x5BF9;&#x8C61;&#x7684;&#xFF0C;</p>
+<p>&#x6839;&#x636E;&#x91C7;&#x6837;&#x70B9;&#x7684;&#x6807;&#x7B7E;&#xFF0C;&#x8BA1;&#x7B97;hash&#x503C;&#xFF0C;&#x6839;&#x636E;hash&#x503C;&#xFF0C;&#x83B7;&#x53D6;&#x5185;&#x5B58;&#x5E8F;&#x5217;</p>
+<pre><code>lset.Hash(),&#x57FA;&#x4E8E;&#x91C7;&#x6837;&#x70B9;&#x7684;&#x6240;&#x6709;&#x6807;&#x7B7E;&#x6784;&#x5EFA;Hash&#x503C;
+// Hash returns a hash value for the label set.
+func (ls Labels) Hash() uint64 {
+    b := make([]byte, 0, 1024)
+    for _, v := range ls {
+        b = append(b, v.Name...)
+        b = append(b, sep)
+        b = append(b, v.Value...)
+        b = append(b, sep)
+    }
+    return xxhash.Sum64(b)
+}
+&#x6839;&#x636E;hash&#x503C;&#xFF0C;&#x83B7;&#x53D6;&#x5185;&#x5B58;&#x5E8F;&#x5217;
+s, created, err := a.head.getOrCreate(lset.Hash(), lset)
+
+&#x4ECE;&#x5168;&#x5C40;&#x5206;&#x6BB5;&#x5E8F;&#x5217;&#x4E2D;&#x83B7;&#x53D6;&#x5185;&#x5B58;&#x5E8F;&#x5217;
+
+func (h *Head) getOrCreate(hash uint64, lset labels.Labels) (*memSeries, bool, error) {
+            ...
+        s := h.series.getByHash(hash, lset)
+            ...
+}
+
+
+
+&#x4ECE;&#x5206;&#x6BB5;&#x7684;HashMap&#x4E2D;&#x83B7;&#x53D6;&#x5BF9;&#x5E94;&#x7684;&#x5185;&#x5B58;&#x5E8F;&#x5217;
+
+func (s *stripeSeries) getByHash(hash uint64, lset labels.Labels) *memSeries {
+
+    i := hash &amp; uint64(s.size-1)  // &#x83B7;&#x53D6;&#x5BF9;&#x5E94;&#x5E26;&#x4F4D;&#x7F6E;
+    s.locks[i].RLock()  
+    series := s.hashes[i].get(hash, lset)
+    s.locks[i].RUnlock()
+
+    return series
+}
+</code></pre><p>&#x7531;&#x4E8E;&#x6211;&#x4EEC;&#x5185;&#x5B58;&#x7684;&#x5E8F;&#x5217;&#x8303;&#x56F4;&#x53EF;&#x80FD;&#x975E;&#x5E38;&#x5927;&#xFF0C;&#x4E3A;&#x4E86;&#x63D0;&#x5347;&#x6548;&#x7387;&#xFF0C;&#x964D;&#x4F4E;&#x9501;&#x7684;&#x7ADE;&#x4E89;&#xFF0C;&#x5C06;&#x8BE5;&#x5E8F;&#x5217;&#x5206;&#x6BB5;&#xFF0C;&#x901A;&#x8FC7;&#x4E00;&#x6B21;hash &#x53EF;&#x4EE5;&#x5B9A;&#x4F4D;&#x5230;&#x4E00;&#x4E2A;&#x8F83;&#x5C0F;&#x7684;&#x533A;&#x95F4;&#xFF0C;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;hash &#x51B2;&#x7A81;&#xFF0C;&#x7EF4;&#x62A4;&#x4E86;&#x4E00;&#x4E2A;&#x5C0F;&#x7684;hashmap&#x3002;</p>
+<h4 id="&#x5185;&#x5B58;&#x7D22;&#x5F15;&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;">&#x5185;&#x5B58;&#x7D22;&#x5F15;&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;</h4>
+<pre><code>caller=head.go:1089 msg=&quot;headAppender 1. &#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x91C7;&#x6837;&#x70B9; &quot;
+caller=head.go:1107 msg=&quot;headAppender 2. &#x5408;&#x6CD5;&#x6027;&#x6821;&#x9A8C;&#x5B8C;&#x6BD5;&#xFF0C;&#x521B;&#x5EFA;&#x5185;&#x5B58;&#x5E8F;&#x5217;&quot;
+caller=head.go:1670 msg=&quot;headAppender 1.1 &#x83B7;&#x53D6;&#x5185;&#x5B58;&#x5E8F;&#x5217;&quot;
+caller=head.go:1677 msg=&quot;headAppender 1.2 &#x83B7;&#x53D6;&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x5931;&#x8D25;&#xFF0C;&#x5F53;&#x524D;&#x5E8F;&#x5217;&#x4E3A;&#x65B0;&#x589E;&#x5E8F;&#x5217;,&#x5168;&#x5C40;ID&#x589E;&#x52A0;1&quot;
+caller=head.go:1686 msg=&quot;headAppender 1.3 &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5185;&#x5B58;&#x5E8F;&#x5217;,&#x5F53;&#x524D;&#x5185;&#x5B58;&#x5E8F;&#x5217;ID=1
+caller=head.go:1689 msg=&quot;headAppender 1.4 &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x5B8C;&#x6210;&#xFF0C;&#x5C06;&#x8BE5;&#x5E8F;&#x5217;&#x52A0;&#x5165;&#x5230; stripeSeries &#x4E2D;&quot;
+caller=head.go:1702 msg=&quot;headAppender 1.5 &#x4E3A;&#x5F53;&#x524D;&#x5E8F;&#x5217;&#x6784;&#x5EFA;&#x5012;&#x6392;&#x7D22;&#x5F15;&quot;
+caller=head.go:1721 msg=&quot;headAppender 1.6 &#x66F4;&#x65B0;&#x5168;&#x5C40;&#x7B26;&#x53F7;&#x6620;&#x5C04;&#x8868;&quot;
+caller=head.go:1120 msg=&quot;headAppender 3. &#x521B;&#x5EFA;n&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x5B8C;&#x6210;&#xFF0C;&#x8C03;&#x7528;AddFast&#x65B9;&#x6CD5;&quot;
+</code></pre><h3 id="&#x5E8F;&#x5217;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#x5E03;&#x5C40;">&#x5E8F;&#x5217;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#x5E03;&#x5C40;</h3>
+<p>&#x5728;&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x8BBE;&#x8BA1;&#x7BC7;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;&#x6BCF;&#x4E2A;&#x5E8F;&#x5217;&#x7684;&#x6570;&#x636E;&#x6700;&#x7EC8;&#x662F;&#x4EE5; chunk &#x5B58;&#x50A8;&#x7684;&#xFF0C;
+&#x4E00;&#x4E2A;&#x5E8F;&#x5217;&#x53EF;&#x80FD;&#x5BF9;&#x5E94;&#x7740;&#x78C1;&#x76D8;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x591A;&#x4E2A;chunk. &#x800C;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x9700;&#x8981;&#x4EE5;
+mmap  &#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5B58;&#x653E;&#x78C1;&#x76D8;&#x548C;&#x5185;&#x5B58;&#x7684;&#x6587;&#x4EF6;&#x6620;&#x5C04;&#xFF0C;&#x5C06; chunk &#x7684;&#x6570;&#x636E;&#x5199;&#x5982;&#x78C1;&#x76D8;&#xFF0C;&#x4EE5;&#x53CA;&#x5BF9;chunk &#x7684;&#x6570;&#x636E;&#x505A;&#x57FA;&#x4E8E;gorila &#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x538B;&#x7F29;&#xFF0C;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x90FD;&#x9700;&#x8981;&#x4F9D;&#x8D56; &#x5185;&#x5B58;&#x5E8F;&#x5217;&#x5BF9;&#x8C61;&#xFF0C;&#x5373;</p>
+<pre><code>
+type memSeries struct {
+
+    ...
+    ref           uint64    // &#x6B64;&#x5E8F;&#x5217; &#x7684;&#x5F15;&#x7528;ID
+    lset          labels.Labels  // &#x5E8F;&#x5217;&#x6807;&#x7B7E;&#x96C6;&#x5408;
+    mmappedChunks []*mmappedChunk   // mmap chunk &#x96C6;
+    headChunk     *memChunk  // &#x5185;&#x5B58;chunk
+    chunkRange    int64
+    firstChunkID  int
+
+    nextAt        int64 // Timestamp at which to cut the next chunk.
+    sampleBuf     [4]sample
+    pendingCommit bool // Whether there are samples waiting to be committed to this series.
+
+    app chunkenc.Appender // Current appender for the chunk.
+
+    memChunkPool *sync.Pool
+
+    txs *txRing
+}
+</code></pre><h3 id="wal&#x5199;&#x5165;">WAL&#x5199;&#x5165;</h3>
+<p>&#x65B0;&#x589E;&#x7684;&#x5E8F;&#x5217;&#xFF0C;&#x9996;&#x5148;&#x4F1A;&#x5199;&#x5165;&#x5185;&#x5B58;&#x5BF9;&#x8C61;&#xFF0C;&#x4E4B;&#x540E;&#xFF0C;&#x5F53; append.Commit &#x65F6;&#xFF0C; &#x4F1A;&#x89E6;&#x53D1;WAL&#x5199;&#x5165;</p>
+<pre><code>func (a *headAppender) Commit() error {
+
+    if err := a.log(); err != nil {
+        //nolint: errcheck
+        a.Rollback() // Most likely the same error will happen again.
+        return errors.Wrap(err, &quot;write to WAL&quot;)
+    }
+    ...
+}
+</code></pre><p>WAL &#x7684;&#x5B9E;&#x73B0;&#x6838;&#x5FC3;&#x903B;&#x8F91;&#xFF0C;&#x5305;&#x542B;&#x5E8F;&#x5217;&#x7684;WAL &#x548C;Record &#x7684;WAL</p>
+<pre><code>func (a *headAppender) log() error {
+    if a.head.wal == nil {
+        return nil
+    }
+
+    buf := a.head.getBytesBuffer()
+    defer func() { a.head.putBytesBuffer(buf) }()
+
+    var rec []byte
+    var enc record.Encoder
+
+    if len(a.series) &gt; 0 {
+        rec = enc.Series(a.series, buf)
+        buf = rec[:0]
+
+        if err := a.head.wal.Log(rec); err != nil {
+            return errors.Wrap(err, &quot;log series&quot;)
+        }
+    }
+    if len(a.samples) &gt; 0 {
+        rec = enc.Samples(a.samples, buf)
+        buf = rec[:0]
+
+        if err := a.head.wal.Log(rec); err != nil {
+            return errors.Wrap(err, &quot;log samples&quot;)
+        }
+    }
+    return nil
+}
+</code></pre><h2 id="&#x603B;&#x7ED3;">&#x603B;&#x7ED3;</h2>
+<p>&#x672C;&#x6587;&#xFF0C;&#x5206;&#x6790;&#x4E86;tsdb &#x5B9E;&#x73B0;&#x6846;&#x67B6;&#xFF0C;&#x4EE5;&#x53CA;&#x6570;&#x636E;&#x5199;&#x5165;&#x5185;&#x5B58;&#x7684;&#x5904;&#x7406;&#x903B;&#x8F91;</p>
+<ul>
+<li><p>&#x901A;&#x8FC7;&#x62BD;&#x8C61;&#x63A5;&#x53E3;Appender &#x5C01;&#x88C5;&#x4E86;&#x5199;&#x5165;&#x7684;&#x590D;&#x6742;&#x6027;</p>
+<p>Appender + DB &#x6784;&#x6210;&#x4E86;tsdb &#x7684;&#x603B;&#x4F53;&#x6846;&#x67B6;</p>
+</li>
+<li><p>&#x6570;&#x636E;&#x91C7;&#x6837;Appender</p>
+<ol>
+<li>&#x5728;Append &#x7684;&#x8FC7;&#x7A0B; &#x6784;&#x5EFA;&#x4E86;&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x7ED3;&#x6784;</li>
+<li>&#x5185;&#x5B58;&#x4E2D;&#x7EF4;&#x62A4;&#x4E86;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x7A97;&#x53E3;&#x7684;&#x5168;&#x90E8;&#x5E8F;&#x5217;&#xFF0C;&#x4E3A;&#x4E86;&#x63D0;&#x5347;&#x65B0;&#x589E;&#x5E8F;&#x5217;&#x7684;&#x8BFB;&#x5199;&#x6027;&#x80FD;&#xFF0C;&#x51CF;&#x5C11;&#x9501;&#x7ADE;&#x4E89;&#xFF0C;&#x6784;&#x5EFA;&#x4E86;
+ &#x5206;&#x6BB5;Hash&#x5E8F;&#x5217;&#xFF0C;&#x901A;&#x8FC7;&#x4E8C;&#x6B21; hashmap &#x89E3;&#x51B3;hash&#x51B2;&#x7A81;</li>
+<li>&#x5728;&#x5199;&#x5165;&#x65B0;&#x589E;&#x6570;&#x636E;&#x540C;&#x65F6;&#xFF0C;&#x6784;&#x5EFA;&#x4E86;&#x5168;&#x5C40;&#x7684;&#x5012;&#x6392;&#x7D22;&#x5F15;&#xFF0C;&#x4EE5;&#x53CA;&#x7B26;&#x53F7;&#x8868;</li>
+<li>&#x901A;&#x8FC7;&#x5185;&#x5B58;&#x5E8F;&#x5217;&#x7684;  mmapchunk &#x5B9E;&#x73B0; &#x78C1;&#x76D8;chunk &#x5230;&#x5185;&#x5B58;chunk &#x7684;&#x6620;&#x5C04;</li>
+</ol>
+</li>
+<li><p>Commit &#x540E;&#x51FA;&#x53D1;WAL </p>
+</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../promethesutsdb.html" class="navigation navigation-prev " aria-label="Previous page: 2.7.1 Prometheus Tsdb 分析">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../../../chapter6/一致性Hash算法JCH.html" class="navigation navigation-next " aria-label="Next page: 6.1 JumpConsistentHash">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.7.2 存储引擎实现分析","level":"3.1.7.2","depth":3,"next":{"title":"6.1 JumpConsistentHash","level":"7.1","depth":1,"path":"docs/chapter6/一致性Hash算法JCH.md","ref":"docs/chapter6/一致性Hash算法JCH.md","articles":[]},"previous":{"title":"2.7.1 Prometheus Tsdb 分析","level":"3.1.7.1","depth":3,"path":"docs/chapter2/prometheus/promethesutsdb.md","ref":"docs/chapter2/prometheus/promethesutsdb.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/chapter2/prometheus/tsdbstoreengine/tsdbstoreengine.md","mtime":"2020-06-19T10:37:29.374Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-06-19T12:23:07.485Z"},"basePath":"../../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../../gitbook/gitbook.js"></script>
+    <script src="../../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

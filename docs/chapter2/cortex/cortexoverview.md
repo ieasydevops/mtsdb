@@ -201,7 +201,6 @@ query frontend 在内部执行一些查询调整，并将其保存在内部队�
 
 ![readpath](./images/readpath.png)
 
-
 ### Ruler
 
 Ruler 是一个可选服务，执行PromQL 的查询来 实现预计算和告警。

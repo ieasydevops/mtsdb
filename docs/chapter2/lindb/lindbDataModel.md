@@ -11,3 +11,4 @@
 | Time Series | 时间线，Metric Name + Tags 的组合对应一条时间线 |   
 | Field | 一个指标下面可以有多个字段 |   
 | Data Point | 一个字段在相应时间点的数据点 |
+

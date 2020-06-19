@@ -29,12 +29,11 @@ bui#  Summary
     * [2.5.1 Druid 索引](docs/chapter2/druid/DruidIndex.md)
   * 2.6 Cortex 分析
     * [2.6.1 Cortex 架构](docs/chapter2/cortex/cortexoverview.md)
+  * 2.7 Prometheus 分析
+    * [2.7.1 Prometheus Tsdb 分析](docs/chapter2/prometheus/promethesutsdb.md)
+    * [2.7.2 存储引擎实现分析](docs/chapter2/prometheus/tsdbstoreengine/tsdbstoreengine.md)
 
-    
 ---
-
-
-
 
 ---
 
@@ -63,6 +62,7 @@ bui#  Summary
 * [6.3 跳表的实现](docs/chapter6/skipList.md)
 * [6.4 Level Compaction](docs/chapter6/LevelCompaction.md)
 * [6.10 DB](docs/chapter6/db.md)
+* [6.11 mmap](docs/chapter6/mmap.md)
 
 ## 参考文献
 
